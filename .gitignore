@@ -1,3 +1,4 @@
 .stack-work/
 *~
 google-location-history-converter.cabal
+dist-newstyle
