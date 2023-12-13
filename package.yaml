@@ -1,0 +1,65 @@
+name:                google-location-history-converter
+version:             0.1.0.0
+github:              "rickprice/google-location-history-converter"
+license:             BSD-3-Clause
+author:              "Frederick Price"
+maintainer:          "fprice@pricemail.ca"
+copyright:           "BSD-3-Clause"
+
+extra-source-files:
+- README.md
+- CHANGELOG.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Data
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/rickprice/google-location-history-converter#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- tar
+- bytestring
+- zlib
+- aeson
+- time
+- json-stream
+
+ghc-options:
+- -Wall
+- -Wcompat
+- -Widentities
+- -Wincomplete-record-updates
+- -Wincomplete-uni-patterns
+- -Wmissing-export-lists
+- -Wmissing-home-modules
+- -Wpartial-fields
+- -Wredundant-constraints
+
+library:
+  source-dirs: src
+
+executables:
+  google-location-history-converter-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - google-location-history-converter
+
+tests:
+  google-location-history-converter-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - google-location-history-converter
