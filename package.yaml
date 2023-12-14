@@ -27,6 +27,7 @@ dependencies:
 - aeson
 - time
 - json-stream
+- text
 
 ghc-options:
 - -Wall

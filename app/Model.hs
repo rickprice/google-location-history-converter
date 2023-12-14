@@ -3,7 +3,7 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE Unsafe #-}
 
-module Model (Location, Model, locations, timestamp, isComplete, toXMLString) where
+module Model (Location, Model, locations, timestamp, toXMLString) where
 
 import Data.Aeson
 
@@ -16,36 +16,36 @@ import Prelude
 -- import Data.List(foldl')
 
 data Location = Location
-    { timestamp :: Maybe UTCTime
-    , longitudeE7 :: Maybe Int
-    , latitudeE7 :: Maybe Int
-    , altitude :: Maybe Int
-    , accuracy :: Maybe Int
+    { timestamp :: UTCTime
+    , longitudeE7 :: !Int
+    , latitudeE7 :: !Int
+    , altitude :: !(Maybe Int)
+    , accuracy :: !(Maybe Int)
     }
     deriving stock (Show, Eq, Ord)
-    deriving stock (Generic)
+    -- deriving stock (Generic)
 
 newtype Model = Model
     { locations :: [Location]
     }
     deriving stock (Show, Eq, Ord)
-    deriving stock (Generic)
+    -- deriving stock (Generic)
 
-instance ToJSON Location
-instance FromJSON Location
-instance ToJSON Model
-instance FromJSON Model
+-- instance ToJSON Location
+-- instance FromJSON Location
+-- instance ToJSON Model
+-- instance FromJSON Model
 
-isComplete :: Location -> Bool
-isComplete x = case (t, lo, la) of
-    (Nothing, _, _) -> False
-    (_, Nothing, _) -> False
-    (_, _, Nothing) -> False
-    (_, _, _) -> True
-  where
-    t = timestamp x
-    lo = longitudeE7 x
-    la = latitudeE7 x
+-- isComplete :: Location -> Bool
+-- isComplete x = case (t, lo, la) of
+--     (Nothing, _, _) -> False
+--     (_, Nothing, _) -> False
+--     (_, _, Nothing) -> False
+--     (_, _, _) -> True
+--   where
+--     t = timestamp x
+--     lo = longitudeE7 x
+--     la = latitudeE7 x
 
 -- lastN' n xs = foldl' (const . drop 1) <*> drop n
 
@@ -71,13 +71,13 @@ toGISBody :: Location -> String
 toGISBody x =
     "<Placemark>"
         ++ "<TimeStamp><when>"
-        ++ maybe "" iso8601Show (timestamp x)
+        ++ iso8601Show (timestamp x)
         ++ "</when></TimeStamp>"
         ++ extendedData (optionals x)
         ++ "<Point><coordinates>"
-        ++ maybe "" convertLocation (longitudeE7 x)
+        ++ convertLocation (longitudeE7 x)
         ++ ","
-        ++ maybe "" convertLocation (latitudeE7 x)
+        ++ convertLocation (latitudeE7 x)
         ++ "</coordinates></Point>"
         ++ "</Placemark>"
 
