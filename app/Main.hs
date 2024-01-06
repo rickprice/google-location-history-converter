@@ -50,26 +50,16 @@ main :: IO ()
 main = do
     print "finished"
 
--- jsonStreamTestString = "{ \
---      \  \"took\":42, \
---      \   \"errors\":true, \
---      \    \"items\": [ \
---      \      {\"index\": {\"_index\":\"test\",\"_type\":\"type1\",\"_id\":\"3\",\"status\":400,\"error\":\"Some error \"}}, \
---      \      {\"index\":{\"_index\":\"test\",\"_type\":\"type1\",\"_id\":\"4\",\"_version\":2,\"status\":200}} \
---      \      ] \
---      \ }"
-
--- jsonStreamTestStringBS2 = BC.pack jsonStreamTestString
-
-jsonStreamTestString = 
+jsonStreamTestString::T.Text
+jsonStreamTestString =
     [text|
-    { 
-    "took":42, 
-      "errors":true, 
+    {
+    "took":42,
+      "errors":true,
       "items": [
-        {"index": {"_index":"test","_type":"type1","_id":"3","status":400,"error":"Some error "}}, 
-        {"index":{"_index":"test","_type":"type1","_id":"4","_version":2,"status":200}} 
-        ] 
+        {"index": {"_index":"test","_type":"type1","_id":"3","status":400,"error":"Some error "}},
+        {"index":{"_index":"test","_type":"type1","_id":"4","_version":2,"status":200}}
+        ]
       }
     |]
 
