@@ -1,11 +1,14 @@
 -- {-# LANGUAGE ImportQualifiedPost #-}
 {-# LANGUAGE Unsafe #-}
+{-# LANGUAGE QuasiQuotes #-}
 {-# LANGUAGE OverloadedStrings #-}
 
 module Main (main) where
 import Control.Applicative (many, (<|>))
 import qualified Data.Text as T
 import qualified Data.JsonStream.Parser as J
+import NeatInterpolation (text)
+
 -- import Data.JsonStream.Parser ((.:), (.:?), (.|))
 
 -- import Data.Text
@@ -47,17 +50,28 @@ main :: IO ()
 main = do
     print "finished"
 
-jsonStreamTestString = "{ \
-     \  \"took\":42, \
-     \   \"errors\":true, \
-     \    \"items\": [ \
-     \      {\"index\": {\"_index\":\"test\",\"_type\":\"type1\",\"_id\":\"3\",\"status\":400,\"error\":\"Some error \"}}, \
-     \      {\"index\":{\"_index\":\"test\",\"_type\":\"type1\",\"_id\":\"4\",\"_version\":2,\"status\":200}} \
-     \      ] \
-     \ }"
+-- jsonStreamTestString = "{ \
+--      \  \"took\":42, \
+--      \   \"errors\":true, \
+--      \    \"items\": [ \
+--      \      {\"index\": {\"_index\":\"test\",\"_type\":\"type1\",\"_id\":\"3\",\"status\":400,\"error\":\"Some error \"}}, \
+--      \      {\"index\":{\"_index\":\"test\",\"_type\":\"type1\",\"_id\":\"4\",\"_version\":2,\"status\":200}} \
+--      \      ] \
+--      \ }"
 
 -- jsonStreamTestStringBS2 = BC.pack jsonStreamTestString
 
+jsonStreamTestString = 
+    [text|
+    { 
+    "took":42, 
+      "errors":true, 
+      "items": [
+        {"index": {"_index":"test","_type":"type1","_id":"3","status":400,"error":"Some error "}}, 
+        {"index":{"_index":"test","_type":"type1","_id":"4","_version":2,"status":200}} 
+        ] 
+      }
+    |]
 
 -- | Result of bulk operation
 resultParser :: J.Parser [(T.Text, T.Text)]
