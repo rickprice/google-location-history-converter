@@ -5,6 +5,8 @@
 
 module Main (main) where
 
+import Model
+
 import Control.Applicative (many, (<|>))
 import qualified Data.JsonStream.Parser as J
 import qualified Data.Text as T
@@ -71,13 +73,14 @@ inProgressTestString =
     [text|
     {
       "locations": [
-        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"status":400,"error":"Some random error 1"},
-        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"status":400,"error":"Some random error 1"},
-        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"status":400,"error":"Some random error 1"},
-        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"status":400,"error":"Some random error 1"},
-        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"status":400,"error":"Some random error 1"},
-        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"status":400,"error":"Some random error 1"},
-        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"status":400,"error":"Some random error 1"},
+        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"accuracy":15},
+        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"accuracy":15},
+        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"accuracy":15},
+        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"accuracy":15},
+        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"accuracy":15},
+        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"accuracy":15},
+        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"accuracy":15},
+        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"accuracy":15},
         {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","status":400,"error":"Some random error 1"},
         {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","status":400,"error":"Some random error 1"},
         {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","status":400,"error":"Some random error 1"},
@@ -87,16 +90,17 @@ inProgressTestString =
     |]
 
 -- | Result of bulk operation
-resultParserIP :: J.Parser [(UTCTime, Int, Int, Int)]
+resultParserIP :: J.Parser [(UTCTime, Int, Int, Int, Int)]
 resultParserIP = many ("locations" J..: J.arrayOf bulkItemErrorIP)
 
-bulkItemErrorIP :: J.Parser (UTCTime, Int, Int, Int)
+bulkItemErrorIP :: J.Parser (UTCTime, Int, Int, Int, Int)
 bulkItemErrorIP =
     J.objectOf $
-        (,,,) <$> "timestamp" J..: J.value
+        (,,,,) <$> "timestamp" J..: J.value
             <*> "latitudeE7" J..: J.integer
             <*> "longitudeE7" J..: J.integer
             <*> "altitude" J..: J.integer
+            <*> "accuracy" J..: J.integer
             -- <* J.filterI statusError ("status" J..: J.integer)
   -- where
     -- statusError s = s < 200 || s > (299 :: Int)
