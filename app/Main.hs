@@ -68,7 +68,7 @@ inProgressTestString =
     "took":42,
       "errors":true,
       "locations": [
-        {"_index":"test","_type":"type1","_id":"1","status":400,"error":"Some random error 1"},
+        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","status":400,"error":"Some random error 1"},
         {"_index":"test","_type":"type1","_id":"2","status":400,"error":"Some random error 2"},
         {"_index":"test","_type":"type1","_id":"3","status":400,"error":"Some random error 3"},
         {"_index":"test","_type":"type1","_id":"4","_version":2,"status":200}
@@ -78,15 +78,15 @@ inProgressTestString =
     |]
 
 -- | Result of bulk operation
-resultParserIP :: J.Parser [(T.Text, T.Text, T.Text)]
+resultParserIP :: J.Parser [(Int, Int, T.Text)]
 resultParserIP = ([] <$ J.filterI not ("errors" J..: J.bool))
               <|> many ("locations" J..: J.arrayOf bulkItemErrorIP)
 
-bulkItemErrorIP :: J.Parser (T.Text, T.Text, T.Text)
+bulkItemErrorIP :: J.Parser (Int, Int, T.Text)
 bulkItemErrorIP = J.objectOf $
-    (,,) <$> "_id"   J..: J.string
-        <*> "error" J..: J.string
-        <*> "_type" J..: J.string
+    (,,) <$> "latitudeE7"   J..: J.integer
+        <*> "longitudeE7" J..: J.integer
+        <*> "timestamp" J..: J.string
         -- <*  J.filterI statusError ("status" J..: J.integer)
   where
     statusError s = s < 200 || s > (299 :: Int)
