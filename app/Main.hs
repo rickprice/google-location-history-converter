@@ -32,6 +32,7 @@ main :: IO ()
 main = do
     print (parseByteString resultParser (TSE.encodeUtf8 esTestString))
     print (parseByteString resultParserIP (TSE.encodeUtf8 inProgressTestString))
+    print (parseByteString resultParserIP (TSE.encodeUtf8 jsonLocationsText))
 
 -- print "finished"
 
@@ -104,21 +105,6 @@ bulkItemErrorIP =
             -- <* J.filterI statusError ("status" J..: J.integer)
   -- where
     -- statusError s = s < 200 || s > (299 :: Int)
-
--- | Result of bulk operation
-locationsParser :: J.Parser [(T.Text, T.Text)]
-locationsParser =
-    ([] <$ J.filterI not ("errors" J..: J.bool))
-        <|> many ("items" J..: J.arrayOf location)
-
-location :: J.Parser (T.Text, T.Text)
-location =
-    J.objectWithKey "index" $
-        (,) <$> "_id" J..: J.string
-            <*> "error" J..: J.string
-            <* J.filterI statusError ("status" J..: J.integer)
-  where
-    statusError s = s < 200 || s > (299 :: Int)
 
 jsonLocationsText :: T.Text
 jsonLocationsText =
