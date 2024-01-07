@@ -8,10 +8,23 @@ import Control.Applicative (many, (<|>))
 import qualified Data.Text as T
 import qualified Data.JsonStream.Parser as J
 import NeatInterpolation (text)
+-- import Data.JsonStream.Parser (parseByteString)
+import Data.JsonStream.Parser (parseByteString)
+import Data.ByteString as BS
 
+
+-- import Data.ByteString.Lazy as BL
+-- import Data.ByteString as BS
+-- import Data.Text as TS
+-- import Data.Text.Lazy as TL
+-- import Data.ByteString.Lazy.UTF8 as BLU -- from utf8-string
+-- import Data.ByteString.UTF8 as BSU      -- from utf8-string
+import Data.Text.Encoding as TSE
+-- import Data.Text.Lazy.Encoding as TLE
 
 main :: IO ()
 main = do
+    print ( parseByteString resultParser (TSE.encodeUtf8 jsonStreamTestString))
     print "finished"
 
 jsonStreamTestString::T.Text
@@ -21,7 +34,7 @@ jsonStreamTestString =
     "took":42,
       "errors":true,
       "items": [
-        {"index": {"_index":"test","_type":"type1","_id":"3","status":400,"error":"Some error "}},
+        {"index": {"_index":"test","_type":"type1","_id":"3","status":400,"error":"Some random error "}},
         {"index":{"_index":"test","_type":"type1","_id":"4","_version":2,"status":200}}
         ]
       }
