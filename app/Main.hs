@@ -45,7 +45,6 @@ jsonStreamTestString =
 
 -- | Result of bulk operation
 resultParser :: J.Parser [(T.Text, T.Text)]
--- resultParser =    const [] <$> J.filterI not ("errors" J..: J.bool)
 resultParser = ([] <$ J.filterI not ("errors" J..: J.bool))
               <|> many ("items" J..: J.arrayOf bulkItemError)
 
