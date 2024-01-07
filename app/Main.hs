@@ -67,7 +67,7 @@ inProgressTestString =
     {
     "took":42,
       "errors":true,
-      "items": [
+      "locations": [
         {"_index":"test","_type":"type1","_id":"1","status":400,"error":"Some random error 1"},
         {"_index":"test","_type":"type1","_id":"2","status":400,"error":"Some random error 2"},
         {"_index":"test","_type":"type1","_id":"3","status":400,"error":"Some random error 3"},
@@ -80,7 +80,7 @@ inProgressTestString =
 -- | Result of bulk operation
 resultParserIP :: J.Parser [(T.Text, T.Text, T.Text)]
 resultParserIP = ([] <$ J.filterI not ("errors" J..: J.bool))
-              <|> many ("items" J..: J.arrayOf bulkItemErrorIP)
+              <|> many ("locations" J..: J.arrayOf bulkItemErrorIP)
 
 bulkItemErrorIP :: J.Parser (T.Text, T.Text, T.Text)
 bulkItemErrorIP = J.objectOf $
