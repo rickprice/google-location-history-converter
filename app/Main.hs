@@ -24,11 +24,13 @@ import Data.Text.Encoding as TSE
 
 main :: IO ()
 main = do
-    print ( parseByteString resultParser (TSE.encodeUtf8 jsonStreamTestString))
+    print ( parseByteString resultParser (TSE.encodeUtf8 esTestString))
+    print ( parseByteString resultParserIP (TSE.encodeUtf8 inProgressTestString))
     -- print "finished"
 
-jsonStreamTestString::T.Text
-jsonStreamTestString =
+-- Original example from json-stream
+esTestString::T.Text
+esTestString =
     [text|
     {
     "took":42,
@@ -55,6 +57,52 @@ bulkItemError = J.objectWithKey "index" $
         <*  J.filterI statusError ("status" J..: J.integer)
   where
     statusError s = s < 200 || s > (299 :: Int)
+
+
+
+-- In progress changes for Google Location Data
+inProgressTestString::T.Text
+inProgressTestString =
+    [text|
+    {
+    "took":42,
+      "errors":true,
+      "items": [
+        {"index": {"_index":"test","_type":"type1","_id":"1","status":400,"error":"Some random error 1"}},
+        {"index": {"_index":"test","_type":"type1","_id":"2","status":400,"error":"Some random error 2"}},
+        {"index": {"_index":"test","_type":"type1","_id":"3","status":400,"error":"Some random error 3"}},
+        {"index":{"_index":"test","_type":"type1","_id":"4","_version":2,"status":200}}
+        {"index": {"_index":"test","_type":"type1","_id":"5","status":400,"error":"Some random error 4"}},
+        ]
+      }
+    |]
+
+-- | Result of bulk operation
+resultParserIP :: J.Parser [(T.Text, T.Text)]
+resultParserIP = ([] <$ J.filterI not ("errors" J..: J.bool))
+              <|> many ("items" J..: J.arrayOf bulkItemErrorIP)
+
+bulkItemErrorIP :: J.Parser (T.Text, T.Text)
+bulkItemErrorIP = J.objectWithKey "index" $
+    (,) <$> "_id"   J..: J.string
+        <*> "error" J..: J.string
+        <*  J.filterI statusError ("status" J..: J.integer)
+  where
+    statusError s = s < 200 || s > (299 :: Int)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 -- | Result of bulk operation
 locationsParser :: J.Parser [(T.Text, T.Text)]
