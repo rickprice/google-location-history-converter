@@ -90,9 +90,7 @@ inProgressTestString =
 
 -- | Result of bulk operation
 resultParserIP :: J.Parser [(UTCTime, Int, Int, Int)]
-resultParserIP =
-    ([] <$ J.filterI not ("errors" J..: J.bool))
-        <|> many ("locations" J..: J.arrayOf bulkItemErrorIP)
+resultParserIP = many ("locations" J..: J.arrayOf bulkItemErrorIP)
 
 bulkItemErrorIP :: J.Parser (UTCTime, Int, Int, Int)
 bulkItemErrorIP =
@@ -101,10 +99,9 @@ bulkItemErrorIP =
             <*> "latitudeE7" J..: J.integer
             <*> "longitudeE7" J..: J.integer
             <*> "altitude" J..: J.integer
-  where
-    -- <*  J.filterI statusError ("status" J..: J.integer)
-
-    statusError s = s < 200 || s > (299 :: Int)
+            -- <* J.filterI statusError ("status" J..: J.integer)
+  -- where
+    -- statusError s = s < 200 || s > (299 :: Int)
 
 -- | Result of bulk operation
 locationsParser :: J.Parser [(T.Text, T.Text)]
