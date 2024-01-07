@@ -23,13 +23,15 @@ data Location = Location
     , accuracy :: !(Maybe Int)
     }
     deriving stock (Show, Eq, Ord)
-    -- deriving stock (Generic)
+
+-- deriving stock (Generic)
 
 newtype Model = Model
     { locations :: [Location]
     }
     deriving stock (Show, Eq, Ord)
-    -- deriving stock (Generic)
+
+-- deriving stock (Generic)
 
 -- instance ToJSON Location
 -- instance FromJSON Location

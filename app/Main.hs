@@ -1,18 +1,20 @@
 -- {-# LANGUAGE ImportQualifiedPost #-}
-{-# LANGUAGE Unsafe #-}
-{-# LANGUAGE QuasiQuotes #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE Unsafe #-}
 
 module Main (main) where
+
 import Control.Applicative (many, (<|>))
-import qualified Data.Text as T
 import qualified Data.JsonStream.Parser as J
+import qualified Data.Text as T
 import NeatInterpolation (text)
+
 -- import Data.JsonStream.Parser (parseByteString)
 import Data.JsonStream.Parser (parseByteString)
+
 -- import Data.ByteString as BS
 import Data.Time (UTCTime)
-
 
 -- import Data.ByteString.Lazy as BL
 -- import Data.ByteString as BS
@@ -21,16 +23,18 @@ import Data.Time (UTCTime)
 -- import Data.ByteString.Lazy.UTF8 as BLU -- from utf8-string
 -- import Data.ByteString.UTF8 as BSU      -- from utf8-string
 import Data.Text.Encoding as TSE
+
 -- import Data.Text.Lazy.Encoding as TLE
 
 main :: IO ()
 main = do
-    print ( parseByteString resultParser (TSE.encodeUtf8 esTestString))
-    print ( parseByteString resultParserIP (TSE.encodeUtf8 inProgressTestString))
-    -- print "finished"
+    print (parseByteString resultParser (TSE.encodeUtf8 esTestString))
+    print (parseByteString resultParserIP (TSE.encodeUtf8 inProgressTestString))
+
+-- print "finished"
 
 -- Original example from json-stream
-esTestString::T.Text
+esTestString :: T.Text
 esTestString =
     [text|
     {
@@ -48,21 +52,21 @@ esTestString =
 
 -- | Result of bulk operation
 resultParser :: J.Parser [(T.Text, T.Text)]
-resultParser = ([] <$ J.filterI not ("errors" J..: J.bool))
-              <|> many ("items" J..: J.arrayOf bulkItemError)
+resultParser =
+    ([] <$ J.filterI not ("errors" J..: J.bool))
+        <|> many ("items" J..: J.arrayOf bulkItemError)
 
 bulkItemError :: J.Parser (T.Text, T.Text)
-bulkItemError = J.objectWithKey "index" $
-    (,) <$> "_id"   J..: J.string
-        <*> "error" J..: J.string
-        <*  J.filterI statusError ("status" J..: J.integer)
+bulkItemError =
+    J.objectWithKey "index" $
+        (,) <$> "_id" J..: J.string
+            <*> "error" J..: J.string
+            <* J.filterI statusError ("status" J..: J.integer)
   where
     statusError s = s < 200 || s > (299 :: Int)
 
-
-
 -- In progress changes for Google Location Data
-inProgressTestString::T.Text
+inProgressTestString :: T.Text
 inProgressTestString =
     [text|
     {
@@ -86,47 +90,38 @@ inProgressTestString =
 
 -- | Result of bulk operation
 resultParserIP :: J.Parser [(UTCTime, Int, Int, Int)]
-resultParserIP = ([] <$ J.filterI not ("errors" J..: J.bool))
-              <|> many ("locations" J..: J.arrayOf bulkItemErrorIP)
+resultParserIP =
+    ([] <$ J.filterI not ("errors" J..: J.bool))
+        <|> many ("locations" J..: J.arrayOf bulkItemErrorIP)
 
 bulkItemErrorIP :: J.Parser (UTCTime, Int, Int, Int)
-bulkItemErrorIP = J.objectOf $
-    (,,,) <$> "timestamp" J..: J.value
-        <*>    "latitudeE7"   J..: J.integer
-        <*> "longitudeE7" J..: J.integer
-        <*> "altitude" J..: J.integer
-        -- <*  J.filterI statusError ("status" J..: J.integer)
+bulkItemErrorIP =
+    J.objectOf $
+        (,,,) <$> "timestamp" J..: J.value
+            <*> "latitudeE7" J..: J.integer
+            <*> "longitudeE7" J..: J.integer
+            <*> "altitude" J..: J.integer
   where
+    -- <*  J.filterI statusError ("status" J..: J.integer)
+
     statusError s = s < 200 || s > (299 :: Int)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 -- | Result of bulk operation
 locationsParser :: J.Parser [(T.Text, T.Text)]
-locationsParser = ([] <$ J.filterI not ("errors" J..: J.bool))
-              <|> many ("items" J..: J.arrayOf location)
+locationsParser =
+    ([] <$ J.filterI not ("errors" J..: J.bool))
+        <|> many ("items" J..: J.arrayOf location)
 
 location :: J.Parser (T.Text, T.Text)
-location = J.objectWithKey "index" $
-    (,) <$> "_id"   J..: J.string
-        <*> "error" J..: J.string
-        <*  J.filterI statusError ("status" J..: J.integer)
+location =
+    J.objectWithKey "index" $
+        (,) <$> "_id" J..: J.string
+            <*> "error" J..: J.string
+            <* J.filterI statusError ("status" J..: J.integer)
   where
     statusError s = s < 200 || s > (299 :: Int)
 
-jsonLocationsText::T.Text
+jsonLocationsText :: T.Text
 jsonLocationsText =
     [text|
     {
@@ -373,4 +368,3 @@ jsonLocationsText =
     }]
     }
     |]
-
