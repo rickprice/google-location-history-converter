@@ -70,8 +70,6 @@ inProgressTestString :: T.Text
 inProgressTestString =
     [text|
     {
-    "took":42,
-      "errors":true,
       "locations": [
         {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"status":400,"error":"Some random error 1"},
         {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"status":400,"error":"Some random error 1"},
