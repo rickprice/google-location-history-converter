@@ -11,6 +11,7 @@ import NeatInterpolation (text)
 -- import Data.JsonStream.Parser (parseByteString)
 import Data.JsonStream.Parser (parseByteString)
 -- import Data.ByteString as BS
+import Data.Time (UTCTime)
 
 
 -- import Data.ByteString.Lazy as BL
@@ -78,15 +79,15 @@ inProgressTestString =
     |]
 
 -- | Result of bulk operation
-resultParserIP :: J.Parser [(Int, Int, T.Text)]
+resultParserIP :: J.Parser [(Int, Int, UTCTime)]
 resultParserIP = ([] <$ J.filterI not ("errors" J..: J.bool))
               <|> many ("locations" J..: J.arrayOf bulkItemErrorIP)
 
-bulkItemErrorIP :: J.Parser (Int, Int, T.Text)
+bulkItemErrorIP :: J.Parser (Int, Int, UTCTime)
 bulkItemErrorIP = J.objectOf $
     (,,) <$> "latitudeE7"   J..: J.integer
         <*> "longitudeE7" J..: J.integer
-        <*> "timestamp" J..: J.string
+        <*> "timestamp" J..: J.value
         -- <*  J.filterI statusError ("status" J..: J.integer)
   where
     statusError s = s < 200 || s > (299 :: Int)
