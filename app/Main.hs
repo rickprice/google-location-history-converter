@@ -69,25 +69,32 @@ inProgressTestString =
     "took":42,
       "errors":true,
       "locations": [
+        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"status":400,"error":"Some random error 1"},
+        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"status":400,"error":"Some random error 1"},
+        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"status":400,"error":"Some random error 1"},
+        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"status":400,"error":"Some random error 1"},
+        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"status":400,"error":"Some random error 1"},
+        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"status":400,"error":"Some random error 1"},
+        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","altitude":183,"status":400,"error":"Some random error 1"},
         {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","status":400,"error":"Some random error 1"},
-        {"_index":"test","_type":"type1","_id":"2","status":400,"error":"Some random error 2"},
-        {"_index":"test","_type":"type1","_id":"3","status":400,"error":"Some random error 3"},
-        {"_index":"test","_type":"type1","_id":"4","_version":2,"status":200}
-        {"_index":"test","_type":"type1","_id":"5","status":400,"error":"Some random error 4"},
+        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","status":400,"error":"Some random error 1"},
+        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","status":400,"error":"Some random error 1"},
+        {"latitudeE7":447405071,"longitudeE7":-798735599,"timestamp":"2023-11-13T02:04:08.588Z","status":400,"error":"Some random error 1"},
         ]
       }
     |]
 
 -- | Result of bulk operation
-resultParserIP :: J.Parser [(Int, Int, UTCTime)]
+resultParserIP :: J.Parser [(UTCTime, Int, Int, Int)]
 resultParserIP = ([] <$ J.filterI not ("errors" J..: J.bool))
               <|> many ("locations" J..: J.arrayOf bulkItemErrorIP)
 
-bulkItemErrorIP :: J.Parser (Int, Int, UTCTime)
+bulkItemErrorIP :: J.Parser (UTCTime, Int, Int, Int)
 bulkItemErrorIP = J.objectOf $
-    (,,) <$> "latitudeE7"   J..: J.integer
+    (,,,) <$> "timestamp" J..: J.value
+        <*>    "latitudeE7"   J..: J.integer
         <*> "longitudeE7" J..: J.integer
-        <*> "timestamp" J..: J.value
+        <*> "altitude" J..: J.integer
         -- <*  J.filterI statusError ("status" J..: J.integer)
   where
     statusError s = s < 200 || s > (299 :: Int)
