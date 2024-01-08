@@ -5,7 +5,7 @@ module Main (main) where
 
 -- import Model
 
-import Control.Applicative (many, (<|>))
+import Control.Applicative (many)
 import qualified Data.JsonStream.Parser as J
 
 import Data.Time (UTCTime)
@@ -37,7 +37,7 @@ entryToByteString entry = extractFileData (Tar.entryContent entry)
 entryIsLocationData :: Tar.Entry -> Bool
 entryIsLocationData e = case Tar.entryContent e of
     Tar.NormalFile _ _ -> doesPathMatch (Tar.entryPath e)
-    _ -> False
+    _AnyFailure -> False
   where
     doesPathMatch :: String -> Bool
     doesPathMatch p = "Takeout/Location History (Timeline)/Records.json" == p
