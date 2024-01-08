@@ -26,13 +26,68 @@ import Data.Time (UTCTime)
 -- import Data.ByteString.UTF8 as BSU      -- from utf8-string
 import Data.Text.Encoding as TSE
 
+import Codec.Archive.Tar as Tar
+
+import Codec.Compression.GZip as GZip
+import Data.ByteString.Lazy as BS
+
 -- import Data.Text.Lazy.Encoding as TLE
 
+{- | This is like the standard 'foldr' function on lists, but for 'Entries'.
+ Compared to 'foldEntries' it skips failures.
+-}
+foldEntriesIgnoreFailure :: (Tar.Entry -> a -> a) -> a -> Tar.Entries e -> a
+foldEntriesIgnoreFailure next done = fold
+  where
+    fold (Tar.Next e es) = next e (fold es)
+    fold Tar.Done = done
+    fold (Tar.Fail _) = done
+
+-- Convert an entry to its filepath
+-- entryToPath :: Tar.Entry -> String
+-- entryToPath entry = show $ Tar.entryPath entry
+
+-- Convert an entry to its ByteString
+entryToByteString :: Tar.Entry -> BS.ByteString
+entryToByteString entry = extractFileData (Tar.entryContent entry)
+  where
+    -- Extract the file data here case
+    extractFileData (Tar.NormalFile d _) = d
+    extractFileData _ = BS.empty
+
+-- Is this Entry the location data we are looking to export
+entryIsLocationData :: Tar.Entry -> Bool
+entryIsLocationData e = case Tar.entryContent e of
+    Tar.NormalFile _ _ -> doesPathMatch (Tar.entryPath e)
+    _ -> False
+  where
+    doesPathMatch :: String -> Bool
+    doesPathMatch p = "Takeout/Location History/Records.json" == p
 main :: IO ()
 main = do
     print (parseByteString resultParser (TSE.encodeUtf8 esTestString))
     print (parseByteString resultParserIP (TSE.encodeUtf8 inProgressTestString))
     print (parseByteString resultParserIP (TSE.encodeUtf8 jsonLocationsText))
+
+    fileContent <- GZip.decompress <$> BS.readFile "takeout.tgz"
+    fileContent <- fmap GZip.decompress (BS.readFile "takeout.tgz")
+    let entries = Tar.read fileContent
+    let entryList = foldEntriesIgnoreFailure (:) [] entries
+    -- let locationRecordFiles = map entryToByteString (filter entryIsLocationData entryList)
+    -- let locationRecordFile = pure (head locationRecordFiles)
+    -- let locationRecordFile = pure(entryToByteString (Prelude.head (Prelude.filter entryIsLocationData entryList)))
+    let locationRecordFile = entryToByteString (Prelude.head (Prelude.filter entryIsLocationData entryList))
+    -- let locationRecordFile = pure (Prelude.head locationRecordFiles)
+    -- let recordFileContents = BS.readFile locationRecordFile
+    print "starting"
+
+    print (J.parseLazyByteString resultParserIP locationRecordFile)
+
+    -- line <- BS.getLine locationRecordFile
+
+    -- print line
+
+
 
 -- print "finished"
 
