@@ -15,7 +15,6 @@ import Codec.Archive.Tar as Tar
 import Codec.Compression.GZip as GZip
 import Data.ByteString.Lazy as BS
 
-
 {- | This is like the standard 'foldr' function on lists, but for 'Entries'.
  Compared to 'foldEntries' it skips failures.
 -}
@@ -54,10 +53,10 @@ locationParser =
             <*> "longitudeE7" J..: J.integer
             <*> "altitude" J..: J.integer
             <*> "accuracy" J..: J.integer
-            -- <* J.filterI statusError ("status" J..: J.integer)
-  -- where
-    -- statusError s = s < 200 || s > (299 :: Int)
 
+-- <* J.filterI statusError ("status" J..: J.integer)
+-- where
+-- statusError s = s < 200 || s > (299 :: Int)
 
 main :: IO ()
 main = do

@@ -16,8 +16,7 @@ import Prelude
 
 -- import Data.List(foldl')
 
-data Location = 
-    Location
+data Location = Location
     { timestamp :: !UTCTime
     , longitudeE7 :: !Int
     , latitudeE7 :: !Int
@@ -37,6 +36,7 @@ data Location =
 
 instance ToJSON Location
 instance FromJSON Location
+
 -- instance ToJSON Model
 -- instance FromJSON Model
 
