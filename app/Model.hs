@@ -3,7 +3,8 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE Unsafe #-}
 
-module Model (Location, Model, locations, timestamp, toXMLString) where
+-- module Model (Location, Model, locations, timestamp, toXMLString) where
+module Model (Location, timestamp, toXMLString) where
 
 import Data.Aeson
 
@@ -16,23 +17,26 @@ import Prelude
 -- import Data.List(foldl')
 
 data Location = Location
-    { timestamp :: UTCTime
+    { timestamp :: !UTCTime
     , longitudeE7 :: !Int
     , latitudeE7 :: !Int
-    , altitude :: !(Maybe Int)
-    , accuracy :: !(Maybe Int)
+    , altitude :: !Int
+    , accuracy :: !Int
     }
-    deriving stock (Show, Eq, Ord)
-    -- deriving stock (Generic)
+    deriving stock (Generic, Show, Eq, Ord)
 
-newtype Model = Model
-    { locations :: [Location]
-    }
-    deriving stock (Show, Eq, Ord)
-    -- deriving stock (Generic)
+-- deriving stock (Generic)
 
--- instance ToJSON Location
--- instance FromJSON Location
+-- newtype Model = Model
+--     { locations :: [Location]
+--     }
+--     deriving stock (Show, Eq, Ord)
+
+-- deriving stock (Generic)
+
+instance ToJSON Location
+instance FromJSON Location
+
 -- instance ToJSON Model
 -- instance FromJSON Model
 
@@ -57,15 +61,15 @@ convertLocation x = reverse (start ++ "." ++ end)
 xmlGISHeader :: String
 xmlGISHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>"
 
-toData :: String -> Maybe Int -> String
-toData _ Nothing = ""
-toData name (Just x) = "<Data name=\"" ++ name ++ "\"><value>" ++ show x ++ "</value></Data>"
+-- toData :: String -> Maybe Int -> String
+-- toData _ Nothing = ""
+-- toData name (Just x) = "<Data name=\"" ++ name ++ "\"><value>" ++ show x ++ "</value></Data>"
 
-optionals :: Location -> String
-optionals x = mconcat [toData "accuracy" (accuracy x), toData "altitude" (altitude x)]
+-- optionals :: Location -> String
+-- optionals x = mconcat [toData "accuracy" (accuracy x), toData "altitude" (altitude x)]
 
-extendedData :: String -> String
-extendedData x = if null x then "" else "<ExtendedData>" ++ x ++ "</ExtendedData>"
+-- extendedData :: String -> String
+-- extendedData x = if null x then "" else "<ExtendedData>" ++ x ++ "</ExtendedData>"
 
 toGISBody :: Location -> String
 toGISBody x =
@@ -73,7 +77,7 @@ toGISBody x =
         ++ "<TimeStamp><when>"
         ++ iso8601Show (timestamp x)
         ++ "</when></TimeStamp>"
-        ++ extendedData (optionals x)
+        -- ++ extendedData (optionals x)
         ++ "<Point><coordinates>"
         ++ convertLocation (longitudeE7 x)
         ++ ","
