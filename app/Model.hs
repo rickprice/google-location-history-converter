@@ -4,7 +4,7 @@
 {-# LANGUAGE Unsafe #-}
 
 -- module Model (Location, Model, locations, timestamp, toXMLString) where
-module Model (LocationRecord (..), LocationRecords (..)) where
+module Model (LocationRecord (..), LocationRecords (..), toXMLString) where
 
 import Data.Aeson
 
@@ -57,15 +57,14 @@ convertLocation x = reverse (start ++ "." ++ end)
 xmlGISHeader :: String
 xmlGISHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>"
 
--- toData :: String -> Maybe Int -> String
--- toData _ Nothing = ""
--- toData name (Just x) = "<Data name=\"" ++ name ++ "\"><value>" ++ show x ++ "</value></Data>"
+toData :: String -> Int -> String
+toData name x = "<Data name=\"" ++ name ++ "\"><value>" ++ show x ++ "</value></Data>"
 
--- optionals :: Location -> String
--- optionals x = mconcat [toData "accuracy" (accuracy x), toData "altitude" (altitude x)]
+extendedData' :: LocationRecord -> String
+extendedData' x = mconcat [toData "accuracy" (accuracy x), toData "altitude" (altitude x)]
 
--- extendedData :: String -> String
--- extendedData x = if null x then "" else "<ExtendedData>" ++ x ++ "</ExtendedData>"
+extendedData :: String -> String
+extendedData x = if null x then "" else "<ExtendedData>" ++ x ++ "</ExtendedData>"
 
 toGISBody :: LocationRecord -> String
 toGISBody x =
@@ -73,7 +72,7 @@ toGISBody x =
         ++ "<TimeStamp><when>"
         ++ iso8601Show (timestamp x)
         ++ "</when></TimeStamp>"
-        -- ++ extendedData (optionals x)
+        ++ extendedData (extendedData' x)
         ++ "<Point><coordinates>"
         ++ convertLocation (longitudeE7 x)
         ++ ","

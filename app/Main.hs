@@ -63,7 +63,7 @@ main = do
     let entryList = foldEntriesIgnoreFailure (:) [] entries
     let locationRecordFile = entryToByteString (Prelude.head (Prelude.filter entryIsLocationData entryList))
 
-    print "starting"
+    -- print "starting"
 
     let locationList = J.parseLazyByteString locationRecordsParser locationRecordFile
 
@@ -71,15 +71,12 @@ main = do
 
     now <- getCurrentTime
     let twoWeekAgo = addUTCTime (-nominalDay * 7 * 2) now
-    let locationListFilteredDate = mfilter (\x -> timestamp x > twoWeekAgo) locationList
-    -- let lengthOriginal = length locationList
-    -- let lengthFiltered = length locationListFiltered
-    -- let lengthFilteredDate = length locationListFilteredDate
-    -- print locationListFiltered
-    print locationListFilteredDate
+    let locationListFilteredByDate = mfilter (\x -> timestamp x > twoWeekAgo) locationList
+    let lengthOriginal = Prelude.length locationList
+    let lengthFilteredByDate = Prelude.length locationListFilteredByDate
+    -- print locationListFilteredByDate
     -- print lengthOriginal
-    -- print lengthFiltered
-    -- print lengthFilteredDate
-    -- putStrLn $ toXMLString locationListFilteredDate
+    -- print lengthFilteredByDate
+    putStrLn $ toXMLString locationListFilteredByDate
 
-    print "finished"
+    -- print "finished"
