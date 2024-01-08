@@ -27,7 +27,7 @@ data LocationRecord = LocationRecord
 -- instance ToJSON LocationRecord
 instance FromJSON LocationRecord
 
-data LocationRecords = LocationRecords
+newtype LocationRecords = LocationRecords
     { locationRecordList :: [LocationRecord]
     }
     deriving stock (Generic, Show, Eq, Ord)
