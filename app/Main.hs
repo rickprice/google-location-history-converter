@@ -12,6 +12,9 @@ import Codec.Archive.Tar as Tar
 import Codec.Compression.GZip as GZip
 import Data.ByteString.Lazy as BS
 
+import Control.Monad (mfilter)
+import Data.Time.Clock
+
 {- | This is like the standard 'foldr' function on lists, but for 'Entries'.
  Compared to 'foldEntries' it skips failures.
 -}
@@ -62,6 +65,21 @@ main = do
 
     print "starting"
 
-    print (J.parseLazyByteString locationRecordsParser locationRecordFile)
+    let locationList = J.parseLazyByteString locationRecordsParser locationRecordFile
+
+    -- print locationList
+
+    now <- getCurrentTime
+    let twoWeekAgo = addUTCTime (-nominalDay * 7 * 2) now
+    let locationListFilteredDate = mfilter (\x -> timestamp x > twoWeekAgo) locationList
+    -- let lengthOriginal = length locationList
+    -- let lengthFiltered = length locationListFiltered
+    -- let lengthFilteredDate = length locationListFilteredDate
+    -- print locationListFiltered
+    print locationListFilteredDate
+    -- print lengthOriginal
+    -- print lengthFiltered
+    -- print lengthFilteredDate
+    -- putStrLn $ toXMLString locationListFilteredDate
 
     print "finished"
