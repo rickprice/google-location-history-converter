@@ -4,7 +4,7 @@
 {-# LANGUAGE Unsafe #-}
 
 -- module Model (Location, Model, locations, timestamp, toXMLString) where
-module Model (Location, timestamp, toXMLString) where
+module Model (LocationRecord (..), LocationRecords (..)) where
 
 import Data.Aeson
 
@@ -16,7 +16,7 @@ import Prelude
 
 -- import Data.List(foldl')
 
-data Location = Location
+data LocationRecord = LocationRecord
     { timestamp :: !UTCTime
     , longitudeE7 :: !Int
     , latitudeE7 :: !Int
@@ -25,16 +25,16 @@ data Location = Location
     }
     deriving stock (Generic, Show, Eq, Ord)
 
-newtype Model = Model
-    { locations :: [Location]
+-- instance ToJSON LocationRecord
+instance FromJSON LocationRecord
+
+data LocationRecords = LocationRecords
+    { locationRecordList :: [LocationRecord]
     }
     deriving stock (Generic, Show, Eq, Ord)
 
--- instance ToJSON Location
-instance FromJSON Location
-
--- instance ToJSON Model
-instance FromJSON Model
+-- instance ToJSON LocationRecords
+instance FromJSON LocationRecords
 
 -- isComplete :: Location -> Bool
 -- isComplete x = case (t, lo, la) of
@@ -67,7 +67,7 @@ xmlGISHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://ww
 -- extendedData :: String -> String
 -- extendedData x = if null x then "" else "<ExtendedData>" ++ x ++ "</ExtendedData>"
 
-toGISBody :: Location -> String
+toGISBody :: LocationRecord -> String
 toGISBody x =
     "<Placemark>"
         ++ "<TimeStamp><when>"
@@ -84,7 +84,7 @@ toGISBody x =
 xmlGISFooter :: String
 xmlGISFooter = "</Document></kml>"
 
-toXMLString :: [Location] -> String
+toXMLString :: [LocationRecord] -> String
 toXMLString x =
     xmlGISHeader
         ++ concatMap toGISBody x

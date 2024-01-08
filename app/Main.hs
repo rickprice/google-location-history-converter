@@ -3,9 +3,10 @@
 
 module Main (main) where
 
--- import Model
+import Model as M
 
 import Control.Applicative (many)
+import Data.JsonStream.Parser ((.:), (.:?), (.|))
 import qualified Data.JsonStream.Parser as J
 
 import Data.Time (UTCTime)
@@ -42,11 +43,11 @@ entryIsLocationData e = case Tar.entryContent e of
     doesPathMatch :: String -> Bool
     doesPathMatch p = "Takeout/Location History (Timeline)/Records.json" == p
 
-locationListParser :: J.Parser [(UTCTime, Int, Int, Int, Int)]
-locationListParser = many ("locations" J..: J.arrayOf locationParser)
+locationListParserX :: J.Parser [(UTCTime, Int, Int, Int, Int)]
+locationListParserX = many ("locations" J..: J.arrayOf locationParserX)
 
-locationParser :: J.Parser (UTCTime, Int, Int, Int, Int)
-locationParser =
+locationParserX :: J.Parser (UTCTime, Int, Int, Int, Int)
+locationParserX =
     J.objectOf $
         (,,,,) <$> "timestamp" J..: J.value
             <*> "latitudeE7" J..: J.integer
@@ -58,6 +59,19 @@ locationParser =
 -- where
 -- statusError s = s < 200 || s > (299 :: Int)
 
+locationRecordParser :: J.Parser M.LocationRecord
+locationRecordParser =
+    M.LocationRecord
+        <$> "timestamp" J..: J.value
+            <*> "latitudeE7" J..: J.integer
+            <*> "longitudeE7" J..: J.integer
+            <*> "altitude" J..: J.integer
+            <*> "accuracy" J..: J.integer
+
+locationRecordsParser :: J.Parser M.LocationRecord
+locationRecordsParser =
+    J.objectWithKey "locations" $ J.arrayOf locationRecordParser
+
 main :: IO ()
 main = do
     fileContent <- GZip.decompress <$> BS.readFile "takeout.tgz"
@@ -68,6 +82,7 @@ main = do
 
     print "starting"
 
-    print (J.parseLazyByteString locationListParser locationRecordFile)
+    -- print (J.parseLazyByteString locationListParserX locationRecordFile)
+    print (J.parseLazyByteString locationRecordsParser locationRecordFile)
 
     print "finished"
