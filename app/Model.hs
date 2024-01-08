@@ -36,19 +36,6 @@ data LocationRecords = LocationRecords
 -- instance ToJSON LocationRecords
 instance FromJSON LocationRecords
 
--- isComplete :: Location -> Bool
--- isComplete x = case (t, lo, la) of
---     (Nothing, _, _) -> False
---     (_, Nothing, _) -> False
---     (_, _, Nothing) -> False
---     (_, _, _) -> True
---   where
---     t = timestamp x
---     lo = longitudeE7 x
---     la = latitudeE7 x
-
--- lastN' n xs = foldl' (const . drop 1) <*> drop n
-
 convertLocation :: Int -> String
 convertLocation x = reverse (start ++ "." ++ end)
   where
