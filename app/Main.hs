@@ -42,19 +42,6 @@ entryIsLocationData e = case Tar.entryContent e of
     doesPathMatch :: String -> Bool
     doesPathMatch p = "Takeout/Location History (Timeline)/Records.json" == p
 
-locationRecordParser :: J.Parser M.LocationRecord
-locationRecordParser =
-    M.LocationRecord
-        <$> "timestamp" J..: J.value
-            <*> "latitudeE7" J..: J.integer
-            <*> "longitudeE7" J..: J.integer
-            <*> "altitude" J..: J.integer
-            <*> "accuracy" J..: J.integer
-
-locationRecordsParser :: J.Parser M.LocationRecord
-locationRecordsParser =
-    J.objectWithKey "locations" $ J.arrayOf locationRecordParser
-
 main :: IO ()
 main = do
     fileContent <- GZip.decompress <$> BS.readFile "takeout.tgz"
