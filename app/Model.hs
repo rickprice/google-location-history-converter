@@ -1,20 +1,19 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE DuplicateRecordFields #-}
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE Unsafe #-}
 
--- module Model (Location, Model, locations, timestamp, toXMLString) where
-module Model (LocationRecord (..), LocationRecords (..), toXMLString) where
+module Model (LocationRecord (..), locationRecordParser, LocationRecords (..), locationRecordsParser, toXMLString) where
 
 import Data.Aeson
 
--- import Data.Text (Text)
 import Data.Time.Clock
 import Data.Time.Format.ISO8601
 import GHC.Generics
 import Prelude
 
--- import Data.List(foldl')
+import qualified Data.JsonStream.Parser as J
 
 data LocationRecord = LocationRecord
     { timestamp :: !UTCTime
@@ -35,6 +34,19 @@ data LocationRecords = LocationRecords
 
 -- instance ToJSON LocationRecords
 instance FromJSON LocationRecords
+
+locationRecordParser :: J.Parser LocationRecord
+locationRecordParser =
+    LocationRecord
+        <$> "timestamp" J..: J.value
+            <*> "latitudeE7" J..: J.integer
+            <*> "longitudeE7" J..: J.integer
+            <*> "altitude" J..: J.integer
+            <*> "accuracy" J..: J.integer
+
+locationRecordsParser :: J.Parser LocationRecord
+locationRecordsParser =
+    J.objectWithKey "locations" $ J.arrayOf locationRecordParser
 
 convertLocation :: Int -> String
 convertLocation x = reverse (start ++ "." ++ end)

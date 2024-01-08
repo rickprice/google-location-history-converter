@@ -79,4 +79,4 @@ main = do
     -- print lengthFilteredByDate
     putStrLn $ toXMLString locationListFilteredByDate
 
-    -- print "finished"
+-- print "finished"
