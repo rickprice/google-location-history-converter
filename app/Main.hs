@@ -5,11 +5,7 @@ module Main (main) where
 
 import Model as M
 
-import Control.Applicative (many)
-import Data.JsonStream.Parser ((.:), (.:?), (.|))
 import qualified Data.JsonStream.Parser as J
-
-import Data.Time (UTCTime)
 
 import Codec.Archive.Tar as Tar
 
@@ -43,22 +39,6 @@ entryIsLocationData e = case Tar.entryContent e of
     doesPathMatch :: String -> Bool
     doesPathMatch p = "Takeout/Location History (Timeline)/Records.json" == p
 
-locationListParserX :: J.Parser [(UTCTime, Int, Int, Int, Int)]
-locationListParserX = many ("locations" J..: J.arrayOf locationParserX)
-
-locationParserX :: J.Parser (UTCTime, Int, Int, Int, Int)
-locationParserX =
-    J.objectOf $
-        (,,,,) <$> "timestamp" J..: J.value
-            <*> "latitudeE7" J..: J.integer
-            <*> "longitudeE7" J..: J.integer
-            <*> "altitude" J..: J.integer
-            <*> "accuracy" J..: J.integer
-
--- <* J.filterI statusError ("status" J..: J.integer)
--- where
--- statusError s = s < 200 || s > (299 :: Int)
-
 locationRecordParser :: J.Parser M.LocationRecord
 locationRecordParser =
     M.LocationRecord
@@ -82,7 +62,6 @@ main = do
 
     print "starting"
 
-    -- print (J.parseLazyByteString locationListParserX locationRecordFile)
     print (J.parseLazyByteString locationRecordsParser locationRecordFile)
 
     print "finished"
