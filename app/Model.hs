@@ -25,20 +25,16 @@ data Location = Location
     }
     deriving stock (Generic, Show, Eq, Ord)
 
--- deriving stock (Generic)
+newtype Model = Model
+    { locations :: [Location]
+    }
+    deriving stock (Generic, Show, Eq, Ord)
 
--- newtype Model = Model
---     { locations :: [Location]
---     }
---     deriving stock (Show, Eq, Ord)
-
--- deriving stock (Generic)
-
-instance ToJSON Location
+-- instance ToJSON Location
 instance FromJSON Location
 
 -- instance ToJSON Model
--- instance FromJSON Model
+instance FromJSON Model
 
 -- isComplete :: Location -> Bool
 -- isComplete x = case (t, lo, la) of
