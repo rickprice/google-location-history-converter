@@ -62,7 +62,7 @@ entryIsLocationData e = case Tar.entryContent e of
     _ -> False
   where
     doesPathMatch :: String -> Bool
-    doesPathMatch p = "Takeout/Location History/Records.json" == p
+    doesPathMatch p = "Takeout/Location History (Timeline)/Records.json" == p
 main :: IO ()
 main = do
     print (parseByteString resultParser (TSE.encodeUtf8 esTestString))
@@ -70,7 +70,7 @@ main = do
     print (parseByteString resultParserIP (TSE.encodeUtf8 jsonLocationsText))
 
     fileContent <- GZip.decompress <$> BS.readFile "takeout.tgz"
-    fileContent <- fmap GZip.decompress (BS.readFile "takeout.tgz")
+    -- fileContent <- fmap GZip.decompress (BS.readFile "takeout.tgz")
     let entries = Tar.read fileContent
     let entryList = foldEntriesIgnoreFailure (:) [] entries
     -- let locationRecordFiles = map entryToByteString (filter entryIsLocationData entryList)
