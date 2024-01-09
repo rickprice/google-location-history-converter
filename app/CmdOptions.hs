@@ -28,13 +28,28 @@ config = Config
          <> metavar "INT" )
 
 runMain :: IO ()
-runMain = runProgram =<< execParser opts
+runMain = do
+    configuration <- getConfig
+    runProgram configuration
+
+-- runMain :: IO ()
+-- runMain = runProgram =<< execParser opts
+--   where
+--     opts = info (config <**> helper)
+--       ( fullDesc
+--      <> progDesc "Convert Google Location data in .tgz format to KML"
+--      <> header "Convert Google Location Data" )
+
+runProgram :: Config -> IO ()
+runProgram (Config inputFile outputFile n) = putStrLn $ "Hello, " ++ inputFile ++ replicate n '!'
+runProgram _ = return ()
+
+
+getConfig :: IO Config
+getConfig = execParser opts
   where
     opts = info (config <**> helper)
       ( fullDesc
      <> progDesc "Convert Google Location data in .tgz format to KML"
      <> header "Convert Google Location Data" )
 
-runProgram :: Config -> IO ()
-runProgram (Config inputFile outputFile n) = putStrLn $ "Hello, " ++ inputFile ++ replicate n '!'
-runProgram _ = return ()
