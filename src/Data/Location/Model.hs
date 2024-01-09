@@ -4,7 +4,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE Unsafe #-}
 
-module Model (LocationRecord (..), locationRecordParser, LocationRecords (..), locationRecordsParser, toXMLString) where
+module Data.Location.Model (LocationRecord (..), locationRecordParser, LocationRecords (..), locationRecordsParser, toXMLString) where
 
 import Data.Aeson
 
@@ -27,7 +27,7 @@ data LocationRecord = LocationRecord
 -- instance ToJSON LocationRecord
 instance FromJSON LocationRecord
 
-newtype LocationRecords = LocationRecords
+data LocationRecords = LocationRecords
     { locationRecordList :: [LocationRecord]
     }
     deriving stock (Generic, Show, Eq, Ord)
