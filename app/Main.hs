@@ -34,10 +34,14 @@ main = do
     -- print locationListFilteredByDate
 
     -- Output as KML
-    outputHandle <- openFile (outputFilename configuration) WriteMode
-    hPutStr outputHandle $ toXMLString locationListFilteredByDate
+    -- outputHandle <- openFile (outputFilename configuration) WriteMode
+    -- hPutStr outputHandle $ toXMLString locationListFilteredByDate
+    -- hClose outputHandle
 
-    hClose outputHandle
+    -- bracket (openFile (outputFilename configuration) WriteMode) hClose $ \h -> do
+    --     hPutStr h $ toXMLString locationListFilteredByDate
+    withFile (outputFilename configuration) WriteMode $ \h -> do
+        hPutStr h $ toXMLString locationListFilteredByDate
 
 -- print lengthOriginal
 -- print lengthFilteredByDate
