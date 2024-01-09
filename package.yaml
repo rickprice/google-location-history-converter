@@ -29,6 +29,7 @@ dependencies:
 - json-stream
 - text
 # - neat-interpolation
+- optparse-applicative
 
 ghc-options:
 - -Wall
