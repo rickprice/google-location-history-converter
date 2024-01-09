@@ -8,8 +8,12 @@ import Data.Location.Model as M
 
 import Data.Time.Clock
 
+import CmdOptions
+
 main :: IO ()
 main = do
+    runMain
+
     -- Get the location records from the Google Takout file
     locationList <- GL.getLocationRecords "takeout.tgz"
 

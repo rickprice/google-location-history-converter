@@ -3,14 +3,7 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages:
-- completed:
-    hackage: neat-interpolation-0.5.1.4@sha256:6ca5e3a763c841861b0449abecf0bca4a80e5dc0ed397f2272cfe70ed145970c,3293
-    pantry-tree:
-      sha256: 645b86e45859efaf2703c020113e57029ae78435c6521a04328767e87c011a1e
-      size: 520
-  original:
-    hackage: neat-interpolation-0.5.1.4
+packages: []
 snapshots:
 - completed:
     sha256: abcc4a65c15c7c2313f1a87f01bfd4d910516e1930b99653eef1d2d006515916
