@@ -6,9 +6,9 @@ module CmdOptions (getConfiguration, Config(..)) where
 import Options.Applicative
 
 data Config = Config
-  { inputFile      :: String
-  , outputFile      :: String
-  , filterOlderThanDays :: Int }
+  { inputFile      :: !String
+  , outputFile      :: !String
+  , filterOlderThanDays :: !Int }
 
 config :: Parser Config
 config = Config

@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
+-- {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE Unsafe #-}
 
 module Main (main) where
@@ -21,7 +21,7 @@ main = do
 
     -- Filter records older than two weeks
     now <- getCurrentTime
-    let filterDate = addUTCTime (-nominalDay * 2 * 7) now
+    let filterDate = addUTCTime (-nominalDay * ( 2 * 7 * (filterOlderThanDays configuration))) now
     let locationListFilteredByDate = GL.filterOlderThan filterDate locationList
 
     -- let lengthOriginal = Prelude.length locationList
