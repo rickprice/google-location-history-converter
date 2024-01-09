@@ -51,4 +51,4 @@ getLocationRecords filePath = do
     return (J.parseLazyByteString M.locationRecordsParser locationRecordFile)
 
 filterOlderThan :: UTCTime -> [LocationRecord] -> [LocationRecord]
-filterOlderThan filterDate locationRecords = Prelude.filter (\x -> (timestamp x) > filterDate) locationRecords
+filterOlderThan filterDate = Prelude.filter (\x -> timestamp x > filterDate)
