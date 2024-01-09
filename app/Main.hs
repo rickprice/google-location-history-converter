@@ -12,17 +12,17 @@ import CmdOptions
 
 main :: IO ()
 main = do
-    runMain
+    configuration <- getConfiguration
 
     -- Get the location records from the Google Takout file
-    locationList <- GL.getLocationRecords "takeout.tgz"
+    locationList <- GL.getLocationRecords (inputFile configuration)
 
     -- print locationList
 
     -- Filter records older than two weeks
     now <- getCurrentTime
-    let twoWeeksAgo = addUTCTime (-nominalDay * 7 * 2) now
-    let locationListFilteredByDate = GL.filterOlderThan twoWeeksAgo locationList
+    let filterDate = addUTCTime (-nominalDay * 2 * 7) now
+    let locationListFilteredByDate = GL.filterOlderThan filterDate locationList
 
     -- let lengthOriginal = Prelude.length locationList
     -- let lengthFilteredByDate = Prelude.length locationListFilteredByDate

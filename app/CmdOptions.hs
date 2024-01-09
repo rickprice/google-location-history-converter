@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE Unsafe #-}
 
-module CmdOptions (runMain) where
+module CmdOptions (getConfiguration, Config(..)) where
 
 import Options.Applicative
 
@@ -29,7 +29,7 @@ config = Config
 
 runMain :: IO ()
 runMain = do
-    configuration <- getConfig
+    configuration <- getConfiguration
     runProgram configuration
 
 -- runMain :: IO ()
@@ -45,8 +45,8 @@ runProgram (Config inputFile outputFile n) = putStrLn $ "Hello, " ++ inputFile +
 runProgram _ = return ()
 
 
-getConfig :: IO Config
-getConfig = execParser opts
+getConfiguration :: IO Config
+getConfiguration = execParser opts
   where
     opts = info (config <**> helper)
       ( fullDesc
