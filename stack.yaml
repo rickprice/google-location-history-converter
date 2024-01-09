@@ -41,14 +41,14 @@ packages:
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
 # extra-deps: []
-extra-deps:
-- neat-interpolation-0.5.1.4
+# extra-deps:
+# - neat-interpolation-0.5.1.4
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
-flags:
-  json-stream:
-    conduit: true
+# flags:
+#   json-stream:
+#     conduit: true
 
 # Extra package databases containing global packages
 # extra-package-dbs: []
