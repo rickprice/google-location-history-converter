@@ -8,33 +8,33 @@ import Options.Applicative
 data Config = Config
   { inputFile      :: String
   , outputFile      :: String
-  , noOlderThanDays :: Int }
+  , filterOlderThanDays :: Int }
 
 config :: Parser Config
 config = Config
       <$> strOption
           ( long "inputFile"
-         <> metavar "TARGET"
-         <> help "Inputfilename" )
+         <> metavar "FILENAME"
+         <> help "Input filename - something like takeout.tgz" )
       <*> strOption
           ( long "outputFile"
-         <> metavar "TARGET"
-         <> help "Output file name" )
+         <> metavar "FILENAME"
+         <> help "Output file name - something like takeout.kml" )
       <*> option auto
-          ( long "enthusiasm"
-         <> help "How enthusiastically to greet"
+          ( long "filterMoreThanDays"
+         <> help "Filter lecation records so they are no older than n days"
          <> showDefault
-         <> value 1
+         <> value 14
          <> metavar "INT" )
 
 runMain :: IO ()
-runMain = greet =<< execParser opts
+runMain = runProgram =<< execParser opts
   where
     opts = info (config <**> helper)
       ( fullDesc
-     <> progDesc "Print a greeting for TARGET"
-     <> header "hello - a test for optparse-applicative" )
+     <> progDesc "Convert Google Location data in .tgz format to KML"
+     <> header "Convert Google Location Data" )
 
-greet :: Config -> IO ()
-greet (Config inputFile outputFile n) = putStrLn $ "Hello, " ++ inputFile ++ replicate n '!'
-greet _ = return ()
+runProgram :: Config -> IO ()
+runProgram (Config inputFile outputFile n) = putStrLn $ "Hello, " ++ inputFile ++ replicate n '!'
+runProgram _ = return ()
