@@ -28,7 +28,7 @@ dependencies:
 - time
 - json-stream
 - text
-- neat-interpolation
+# - neat-interpolation
 
 ghc-options:
 - -Wall
