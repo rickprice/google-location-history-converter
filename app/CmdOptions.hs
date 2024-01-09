@@ -6,8 +6,8 @@ module CmdOptions (getConfiguration, Config (..)) where
 import Options.Applicative
 
 data Config = Config
-    { inputFile :: !String
-    , outputFile :: !String
+    { inputFilename :: !String
+    , outputFilename :: !String
     , filterOlderThanDays :: !Integer
     }
 

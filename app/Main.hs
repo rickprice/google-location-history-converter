@@ -7,25 +7,26 @@ import Data.Location.GoogleLocation as GL
 import Data.Location.Model as M
 
 import Data.Time
-import Data.Time.Clock
 
 import CmdOptions
 
+import System.IO
+
 addDaysUTCTime :: UTCTime -> Integer -> UTCTime
-addDaysUTCTime t x = addUTCTime (nominalDay * (fromIntegral x)) t
+addDaysUTCTime t x = addUTCTime (nominalDay * fromIntegral x) t
 
 main :: IO ()
 main = do
     configuration <- getConfiguration
 
     -- Get the location records from the Google Takout file
-    locationList <- GL.getLocationRecords (inputFile configuration)
+    locationList <- GL.getLocationRecords (inputFilename configuration)
 
     -- print locationList
 
     -- Filter records older than two weeks
     now <- getCurrentTime
-    let filterDate = addDaysUTCTime now ((-1) * (filterOlderThanDays configuration))
+    let filterDate = addDaysUTCTime now ((-1) * filterOlderThanDays configuration)
     let locationListFilteredByDate = GL.filterOlderThan filterDate locationList
 
     -- let lengthOriginal = Prelude.length locationList
@@ -33,7 +34,10 @@ main = do
     -- print locationListFilteredByDate
 
     -- Output as KML
-    putStrLn $ toXMLString locationListFilteredByDate
+    outputHandle <- openFile (outputFilename configuration) WriteMode
+    hPutStr outputHandle $ toXMLString locationListFilteredByDate
+
+    hClose outputHandle
 
 -- print lengthOriginal
 -- print lengthFilteredByDate
