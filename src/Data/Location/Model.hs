@@ -18,8 +18,8 @@ import qualified Data.JsonStream.Parser as J
 -- Record that tracks a location IE a Placemark in KML
 data LocationRecord = LocationRecord
     { timestamp :: !UTCTime
-    , longitudeE7 :: !Int
     , latitudeE7 :: !Int
+    , longitudeE7 :: !Int
     , altitude :: !Int
     , accuracy :: !Int
     }
