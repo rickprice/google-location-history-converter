@@ -20,7 +20,7 @@ data LocationRecord = LocationRecord
     { timestamp :: !UTCTime
     , latitudeE7 :: !Int
     , longitudeE7 :: !Int
-    , altitude :: !Int
+    , altitude :: !(Maybe Int)
     , accuracy :: !Int
     }
     deriving stock (Generic, Show, Eq, Ord)
@@ -44,7 +44,7 @@ locationRecordParser =
         <$> "timestamp" J..: J.value
             <*> "latitudeE7" J..: J.integer
             <*> "longitudeE7" J..: J.integer
-            <*> "altitude" J..: J.integer
+            <*> "altitude" J..:? J.integer
             <*> "accuracy" J..: J.integer
 
 locationRecordsParser :: J.Parser LocationRecord
