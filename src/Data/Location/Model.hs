@@ -21,7 +21,7 @@ data LocationRecord = LocationRecord
     , latitudeE7 :: !Int
     , longitudeE7 :: !Int
     , altitude :: !(Maybe Int)
-    , accuracy :: !Int
+    , accuracy :: !(Maybe Int)
     }
     deriving stock (Generic, Show, Eq, Ord)
 
@@ -45,7 +45,7 @@ locationRecordParser =
             <*> "latitudeE7" J..: J.integer
             <*> "longitudeE7" J..: J.integer
             <*> "altitude" J..:? J.integer
-            <*> "accuracy" J..: J.integer
+            <*> "accuracy" J..:? J.integer
 
 locationRecordsParser :: J.Parser LocationRecord
 locationRecordsParser =
@@ -61,8 +61,9 @@ convertLocation x = reverse (start ++ "." ++ end)
 xmlGISHeader :: String
 xmlGISHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>"
 
-toData :: String -> Int -> String
-toData name x = "<Data name=\"" ++ name ++ "\"><value>" ++ show x ++ "</value></Data>"
+toData :: String -> Maybe Int -> String
+toData _ Nothing = ""
+toData name (Just x) = "<Data name=\"" ++ name ++ "\"><value>" ++ show x ++ "</value></Data>"
 
 extendedData' :: LocationRecord -> String
 extendedData' x = mconcat [toData "accuracy" (accuracy x), toData "altitude" (altitude x)]
