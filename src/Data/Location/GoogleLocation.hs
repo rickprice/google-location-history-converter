@@ -41,6 +41,7 @@ entryIsLocationData e = case Tar.entryContent e of
     doesPathMatch :: String -> Bool
     doesPathMatch p = "Takeout/Location History (Timeline)/Records.json" == p
 
+-- Get the location records from the Google Takout Data TGZ file
 getLocationRecords :: FilePath -> IO [LocationRecord]
 getLocationRecords filePath = do
     fileContent <- GZip.decompress <$> BS.readFile filePath
@@ -50,5 +51,6 @@ getLocationRecords filePath = do
 
     return (J.parseLazyByteString M.locationRecordsParser locationRecordFile)
 
+-- Utility funnction to filter data older than the given date
 filterOlderThan :: UTCTime -> [LocationRecord] -> [LocationRecord]
 filterOlderThan filterDate = Prelude.filter (\x -> timestamp x > filterDate)

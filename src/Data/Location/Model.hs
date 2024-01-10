@@ -15,6 +15,7 @@ import Prelude
 
 import qualified Data.JsonStream.Parser as J
 
+-- Record that tracks a location IE a Placemark in KML
 data LocationRecord = LocationRecord
     { timestamp :: !UTCTime
     , longitudeE7 :: !Int
@@ -27,7 +28,8 @@ data LocationRecord = LocationRecord
 -- instance ToJSON LocationRecord
 instance FromJSON LocationRecord
 
-data LocationRecords = LocationRecords
+-- A list of location records
+newtype LocationRecords = LocationRecords
     { locationRecordList :: [LocationRecord]
     }
     deriving stock (Generic, Show, Eq, Ord)
@@ -35,6 +37,7 @@ data LocationRecords = LocationRecords
 -- instance ToJSON LocationRecords
 instance FromJSON LocationRecords
 
+-- The Parser setup
 locationRecordParser :: J.Parser LocationRecord
 locationRecordParser =
     LocationRecord
@@ -48,11 +51,13 @@ locationRecordsParser :: J.Parser LocationRecord
 locationRecordsParser =
     J.objectWithKey "locations" $ J.arrayOf locationRecordParser
 
+-- Convert a location to a string value for KML
 convertLocation :: Int -> String
 convertLocation x = reverse (start ++ "." ++ end)
   where
     (start, end) = splitAt 7 (reverse $ show x)
 
+-- The KML Header
 xmlGISHeader :: String
 xmlGISHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>"
 
