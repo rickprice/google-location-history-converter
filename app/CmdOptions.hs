@@ -8,7 +8,7 @@ import Options.Applicative
 data Config = Config
     { inputFilename :: !String
     , outputFilename :: !String
-    , filterOlderThanDays :: !Integer
+    , filterOlderThanDays :: !(Maybe Integer)
     }
 
 config :: Parser Config
@@ -24,13 +24,15 @@ config =
                 <> metavar "FILENAME"
                 <> help "Output file name - something like takeout.kml"
             )
-        <*> option
-            auto
-            ( long "filterMoreThanDays"
-                <> help "Filter lecation records so they are no older than n days"
-                <> showDefault
-                <> value 14
-                <> metavar "INT"
+        <*> optional
+            ( option
+                auto
+                ( long "filterMoreThanDays"
+                    <> help "Filter lecation records so they are no older than n days"
+                    <> showDefault
+                    <> value 14
+                    <> metavar "INT"
+                )
             )
 
 getConfiguration :: IO Config

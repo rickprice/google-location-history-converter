@@ -12,6 +12,8 @@ import CmdOptions
 
 import System.IO
 
+import Data.Maybe
+
 addDaysUTCTime :: UTCTime -> Integer -> UTCTime
 addDaysUTCTime t x = addUTCTime (nominalDay * fromIntegral x) t
 
@@ -26,7 +28,8 @@ main = do
 
     -- Filter records older than two weeks
     now <- getCurrentTime
-    let filterDate = addDaysUTCTime now ((-1) * filterOlderThanDays configuration)
+    -- FIX: While this may compile, the logic is now incorrect, if we get a Nothing, we don't want to filter the list at all
+    let filterDate = addDaysUTCTime now ((-1) * fromMaybe 0 (filterOlderThanDays configuration))
     let locationListFilteredByDate = GL.filterOlderThan filterDate locationList
 
     -- let lengthOriginal = Prelude.length locationList
