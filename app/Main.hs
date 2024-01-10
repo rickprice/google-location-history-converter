@@ -24,6 +24,7 @@ main = do
 
     -- print locationList
 
+    -- Filter records by date if required
     now <- getCurrentTime
     let listToOutput = case filterOlderThanDays configuration of
             Nothing -> locationList
@@ -31,19 +32,16 @@ main = do
               where
                 filterDate = addDaysUTCTime now ((-1) * x)
 
-    -- Filter records older than two weeks
-    -- now <- getCurrentTime
-    -- -- FIX: While this may compile, the logic is now incorrect, if we get a Nothing, we don't want to filter the list at all
-    -- let filterDate = addDaysUTCTime now ((-1) * fromMaybe 0 (filterOlderThanDays configuration))
-    -- let locationListFilteredByDate = GL.filterOlderThan filterDate locationList
 
     -- let lengthOriginal = Prelude.length locationList
     -- let lengthFilteredByDate = Prelude.length locationListFilteredByDate
     -- print locationListFilteredByDate
 
     -- Output as KML
-    withFile (outputFilename configuration) WriteMode $ \h -> do
-        hPutStr h $ toXMLString listToOutput
+    case outputFilename configuration of
+        Nothing -> putStrLn $ toXMLString listToOutput
+        Just x -> withFile x WriteMode $ \h -> do
+            hPutStr h $ toXMLString listToOutput
 
 -- print lengthOriginal
 -- print lengthFilteredByDate

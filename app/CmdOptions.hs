@@ -7,7 +7,7 @@ import Options.Applicative
 
 data Config = Config
     { inputFilename :: !String
-    , outputFilename :: !String
+    , outputFilename :: !(Maybe String)
     , filterOlderThanDays :: !(Maybe Integer)
     }
 
@@ -19,18 +19,20 @@ config =
                 <> metavar "FILENAME"
                 <> help "Input filename - something like takeout.tgz"
             )
-        <*> strOption
-            ( long "outputFile"
-                <> metavar "FILENAME"
-                <> help "Output file name - something like takeout.kml"
+        <*> optional
+            ( strOption
+                ( long "outputFile"
+                    <> metavar "FILENAME"
+                    <> help "Output file name - something like takeout.kml"
+                )
             )
         <*> optional
             ( option
                 auto
                 ( long "filterMoreThanDays"
                     <> help "Filter lecation records so they are no older than n days"
-                    <> showDefault
-                    <> value 14
+                    -- <> showDefault
+                    -- <> value 14
                     <> metavar "INT"
                 )
             )
