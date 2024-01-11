@@ -12,5 +12,5 @@ import Prelude
 toXMLString :: [LocationRecord] -> String
 toXMLString x =
     xmlGISHeader
-        ++ concatMap toGISBody x
+        ++ concatMap toPlacemarkDataTag x
         ++ xmlGISFooter

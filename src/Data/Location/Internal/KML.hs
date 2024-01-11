@@ -3,7 +3,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE Unsafe #-}
 
-module Data.Location.Internal.KML (xmlGISHeader, xmlGISFooter, toGISBody, convertLocation, wrapWithDataTag, toExtendedDataTag) where
+module Data.Location.Internal.KML (xmlGISHeader, xmlGISFooter, toPlacemarkDataTag, convertLocation, wrapWithDataTag, toExtendedDataTag) where
 
 import Data.Location.Model
 
@@ -27,8 +27,8 @@ wrapWithDataTag :: String -> Maybe Int -> String
 wrapWithDataTag _ Nothing = ""
 wrapWithDataTag name (Just x) = "<Data name=\"" ++ name ++ "\"><value>" ++ show x ++ "</value></Data>"
 
-toGISBody :: LocationRecord -> String
-toGISBody x =
+toPlacemarkDataTag :: LocationRecord -> String
+toPlacemarkDataTag x =
     "<Placemark>"
         ++ "<TimeStamp><when>"
         ++ iso8601Show (timestamp x)

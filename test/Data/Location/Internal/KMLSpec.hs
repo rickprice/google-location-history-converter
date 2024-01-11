@@ -5,7 +5,6 @@ import Data.Location.Model
 import Data.Time.Clock
 import Test.Hspec
 
-
 spec :: Spec
 spec = do
     describe "Data.Location.Internal.KML.xmlGISHeader" $ do
@@ -36,18 +35,21 @@ spec = do
         it "Handles a Location without optional values by converting it to an XML Snippet" $ do
             toExtendedDataTag typicalLocationNoOptionalFields `shouldBe` ""
 
-typicalDate::UTCTime
-typicalDate=read "2023-12-25 18:28:52.607875 UTC" :: UTCTime
+    describe "Data.Location.Internal.KML.toPlacemarkDataTag" $ do
+        it "Returns a correctly formatted Placemark snippet from a Location" $ do
+            toPlacemarkDataTag typicalLocationAllFields `shouldBe` "<Placemark><TimeStamp><when>2023-12-25T18:28:52.607875Z</when></TimeStamp><ExtendedData><Data name=\"accuracy\"><value>10</value></Data><Data name=\"altitude\"><value>126</value></Data></ExtendedData><Point><coordinates>-79.8735599,44.7405071</coordinates></Point></Placemark>"
 
-typicalLocationAllFields::LocationRecord
+typicalDate :: UTCTime
+typicalDate = read "2023-12-25 18:28:52.607875 UTC" :: UTCTime
+
+typicalLocationAllFields :: LocationRecord
 typicalLocationAllFields = LocationRecord typicalDate 447405071 (-798735599) (Just 126) (Just 10)
 
-typicalLocationNoAltitude::LocationRecord
-typicalLocationNoAltitude= LocationRecord typicalDate 447405071 (-798735599) Nothing (Just 10)
+typicalLocationNoAltitude :: LocationRecord
+typicalLocationNoAltitude = LocationRecord typicalDate 447405071 (-798735599) Nothing (Just 10)
 
-typicalLocationNoAccuracy::LocationRecord
+typicalLocationNoAccuracy :: LocationRecord
 typicalLocationNoAccuracy = LocationRecord typicalDate 447405071 (-798735599) (Just 126) Nothing
 
-typicalLocationNoOptionalFields::LocationRecord
-typicalLocationNoOptionalFields = LocationRecord typicalDate  447405071 (-798735599) Nothing Nothing
-
+typicalLocationNoOptionalFields :: LocationRecord
+typicalLocationNoOptionalFields = LocationRecord typicalDate 447405071 (-798735599) Nothing Nothing
