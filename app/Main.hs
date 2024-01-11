@@ -1,10 +1,9 @@
--- {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE Unsafe #-}
 
 module Main (main) where
 
 import Data.Location.GoogleLocation as GL
-import Data.Location.Model as M
+import Data.Location.KML as KML
 
 import Data.Time
 
@@ -35,4 +34,4 @@ main = do
     case outputFilename configuration of
         Nothing -> putStrLn $ toXMLString listToOutput
         Just x -> withFile x WriteMode $ \h -> do
-            hPutStr h $ toXMLString listToOutput
+            hPutStr h $ KML.toXMLString listToOutput
