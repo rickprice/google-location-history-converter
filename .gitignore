@@ -2,3 +2,6 @@
 *~
 google-location-history-converter.cabal
 dist-newstyle
+python.kml
+python.kml.xml
+takeout.tgz
