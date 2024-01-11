@@ -3,6 +3,7 @@
 {-# LANGUAGE Unsafe #-}
 
 module Data.Location.KML (toXMLString) where
+
 import Data.Location.Internal.KML
 import Data.Location.Model
 
@@ -13,4 +14,3 @@ toXMLString x =
     xmlGISHeader
         ++ concatMap toGISBody x
         ++ xmlGISFooter
-
