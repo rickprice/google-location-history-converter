@@ -43,22 +43,26 @@ spec = do
         it "Returns a correct string for a positive regular Longitude Number" $ do
             convertLocationToString typicalPositiveLongitudeNumber `shouldBe` "44.7405071"
         it "Returns a correct string for a negative regular Latitude Number" $ do
-            convertLocationToString typicalNegativeLatitudeNumber`shouldBe` "-79.8735599"
+            convertLocationToString typicalNegativeLatitudeNumber `shouldBe` "-79.8735599"
         it "Returns a correct string for small positive Longitude Number" $ do
-            convertLocationToString smallPositiveLongitudeNumber`shouldBe` "0.0005071"
-
+            convertLocationToString smallPositiveLongitudeNumber `shouldBe` "0.0005071"
+        it "Returns a correct string for small positive Longitude Number" $ do
+            convertLocationToString smallNegativeLongitudeNumber `shouldBe` "-0.0005071"
 
 typicalDate :: UTCTime
 typicalDate = read "2023-12-25 18:28:52.607875 UTC" :: UTCTime
 
-typicalPositiveLongitudeNumber::Int
-typicalPositiveLongitudeNumber=447405071 
+typicalPositiveLongitudeNumber :: Int
+typicalPositiveLongitudeNumber = 447405071
 
-smallPositiveLongitudeNumber::Int
-smallPositiveLongitudeNumber=5071 
+smallPositiveLongitudeNumber :: Int
+smallPositiveLongitudeNumber = 5071
 
-typicalNegativeLatitudeNumber::Int
-typicalNegativeLatitudeNumber=(-798735599)
+smallNegativeLongitudeNumber :: Int
+smallNegativeLongitudeNumber = (-5071)
+
+typicalNegativeLatitudeNumber :: Int
+typicalNegativeLatitudeNumber = (-798735599)
 
 typicalLocationAllFields :: LocationRecord
 typicalLocationAllFields = LocationRecord typicalDate typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber (Just 126) (Just 10)

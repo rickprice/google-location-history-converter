@@ -8,8 +8,8 @@ module Data.Location.Internal.KML (xmlGISHeader, xmlGISFooter, toPlacemarkDataTa
 import Data.Location.Model
 
 import Data.Time.Format.ISO8601
-import Prelude
 import Formatting
+import Prelude
 
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as TL
@@ -46,6 +46,5 @@ toPlacemarkDataTag x =
         ++ "</coordinates></Point>"
         ++ "</Placemark>"
 
-
 convertLocationToString :: Int -> String
-convertLocationToString x = formatToString (fixed 7) (fromIntegral x / 10000000::Double)
+convertLocationToString x = formatToString (fixed 7) (fromIntegral x / 10000000 :: Double)
