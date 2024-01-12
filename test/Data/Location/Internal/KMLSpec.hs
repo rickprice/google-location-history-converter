@@ -45,7 +45,7 @@ spec = do
         it "Returns a correct string for a negative regular Latitude Number" $ do
             convertLocationToString typicalNegativeLatitudeNumber`shouldBe` "-79.8735599"
         it "Returns a correct string for small positive Longitude Number" $ do
-            convertLocationToString smallPositiveLongitudeNumber`shouldBe` "0.00005071"
+            convertLocationToString smallPositiveLongitudeNumber`shouldBe` "0.0005071"
 
 
 typicalDate :: UTCTime

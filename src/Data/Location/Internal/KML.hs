@@ -9,6 +9,11 @@ import Data.Location.Model
 
 import Data.Time.Format.ISO8601
 import Prelude
+import Formatting
+
+import qualified Data.Text as T
+import qualified Data.Text.Lazy as TL
+import qualified Data.Text.Lazy.Builder as TLB
 
 -- The KML Header
 xmlGISHeader :: String
@@ -43,6 +48,4 @@ toPlacemarkDataTag x =
 
 
 convertLocationToString :: Int -> String
-convertLocationToString x = reverse (start ++ "." ++ end)
-  where
-    (start, end) = splitAt 7 (reverse $ show x)
+convertLocationToString x = formatToString (fixed 7) (fromIntegral x / 10000000::Double)
