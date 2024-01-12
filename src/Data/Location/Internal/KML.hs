@@ -3,7 +3,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE Unsafe #-}
 
-module Data.Location.Internal.KML (xmlGISHeader, xmlGISFooter, toPlacemarkDataTag, convertLocation, wrapWithDataTag, toExtendedDataTag) where
+module Data.Location.Internal.KML (xmlGISHeader, xmlGISFooter, toPlacemarkDataTag, convertLocationToString, wrapWithDataTag, toExtendedDataTag) where
 
 import Data.Location.Model
 
@@ -35,14 +35,14 @@ toPlacemarkDataTag x =
         ++ "</when></TimeStamp>"
         ++ toExtendedDataTag x
         ++ "<Point><coordinates>"
-        ++ convertLocation (longitudeE7 x)
+        ++ convertLocationToString (longitudeE7 x)
         ++ ","
-        ++ convertLocation (latitudeE7 x)
+        ++ convertLocationToString (latitudeE7 x)
         ++ "</coordinates></Point>"
         ++ "</Placemark>"
 
--- Convert a location to a string value for KML
-convertLocation :: Int -> String
-convertLocation x = reverse (start ++ "." ++ end)
+
+convertLocationToString :: Int -> String
+convertLocationToString x = reverse (start ++ "." ++ end)
   where
     (start, end) = splitAt 7 (reverse $ show x)
