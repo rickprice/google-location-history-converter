@@ -31,6 +31,7 @@ dependencies:
 - formatting
 - neat-interpolation
 - optparse-applicative
+- string-conversions
 
 ghc-options:
 - -Wall
