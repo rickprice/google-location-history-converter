@@ -9,7 +9,7 @@ spec :: Spec
 spec = do
     describe "Data.Location.Internal.KML.xmlGISHeader" $ do
         it "Returns a KML Header string" $ do
-            xmlGISHeader `shouldBe` "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>"
+            xmlGISHeader `shouldBe` "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>\n"
 
     describe "Data.Location.Internal.KML.xmlGISFooter" $ do
         it "Returns a KML Footer string" $ do
@@ -37,7 +37,7 @@ spec = do
 
     describe "Data.Location.Internal.KML.toPlacemarkDataTag" $ do
         it "Returns a correctly formatted Placemark snippet from a Location" $ do
-            toPlacemarkDataTag typicalLocationAllFields `shouldBe` "<Placemark><TimeStamp><when>2023-12-25T18:28:52.607875Z</when></TimeStamp><ExtendedData><Data name=\"accuracy\"><value>10</value></Data><Data name=\"altitude\"><value>126</value></Data></ExtendedData><Point><coordinates>-79.8735599,44.7405071</coordinates></Point></Placemark>"
+            toPlacemarkDataTag typicalLocationAllFields `shouldBe` "<Placemark><TimeStamp><when>2023-12-25T18:28:52.607875Z</when></TimeStamp><ExtendedData><Data name=\"accuracy\"><value>10</value></Data><Data name=\"altitude\"><value>126</value></Data></ExtendedData><Point><coordinates>-79.8735599,44.7405071</coordinates></Point></Placemark>\n"
 
     describe "Data.Location.Internal.KML.convertLocation" $ do
         it "Returns a correct string for a positive regular Longitude Number" $ do

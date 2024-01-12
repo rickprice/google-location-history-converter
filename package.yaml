@@ -29,7 +29,7 @@ dependencies:
 - json-stream
 - text
 - formatting
-# - neat-interpolation
+- neat-interpolation
 - optparse-applicative
 
 ghc-options:

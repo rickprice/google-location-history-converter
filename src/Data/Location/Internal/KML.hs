@@ -17,7 +17,7 @@ import qualified Data.Text.Lazy.Builder as TLB
 
 -- The KML Header
 xmlGISHeader :: String
-xmlGISHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>"
+xmlGISHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>\n"
 
 -- The KML Footer
 xmlGISFooter :: String
@@ -44,7 +44,7 @@ toPlacemarkDataTag x =
         ++ ","
         ++ convertLocationToString (latitudeE7 x)
         ++ "</coordinates></Point>"
-        ++ "</Placemark>"
+        ++ "</Placemark>\n"
 
 convertLocationToString :: Int -> String
 convertLocationToString x = formatToString (fixed 7) (fromIntegral x / 10000000 :: Double)
