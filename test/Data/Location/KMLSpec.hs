@@ -1,10 +1,14 @@
-{-# LANGUAGE OverloadedStrings #-}
+-- {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE QuasiQuotes #-}
 
 module Data.Location.KMLSpec (spec) where
 
+import Data.ByteString
+import Data.ByteString.Builder
+import Data.Location.Internal.KML
 import Data.Location.KML
 import Data.Location.Model
+import Data.String.Conversions (cs)
 import qualified Data.Text as T
 import Data.Time.Clock
 import NeatInterpolation (text)
@@ -14,7 +18,7 @@ spec :: Spec
 spec = do
     describe "Data.Location.KML.xmlGISHeader" $ do
         it "Converts a list of Locations to XML" $ do
-            toXMLString locationList `shouldBe` T.unpack locationListKMLAsString
+            (cs (toLazyByteString (renderKML locationList))) `shouldBe` locationListKMLAsString
 
 locationList :: [LocationRecord]
 locationList = [typicalLocationAllFields, typicalLocationNoAccuracy, typicalLocationNoAltitude, typicalLocationNoOptionalFields]
@@ -41,7 +45,6 @@ typicalLocationNoOptionalFields :: LocationRecord
 typicalLocationNoOptionalFields = LocationRecord typicalDate typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber Nothing Nothing
 
 -- Original example from json-stream
--- locationListKMLAsString :: T.Text
 locationListKMLAsString :: T.Text
 locationListKMLAsString =
     [text|

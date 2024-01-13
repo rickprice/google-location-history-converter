@@ -3,44 +3,45 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE Unsafe #-}
 
-module Data.Location.Internal.KML (xmlGISHeader, xmlGISFooter, toPlacemarkDataTag, convertLocationToString, wrapWithDataTag, toExtendedDataTag) where
+module Data.Location.Internal.KML (xmlKMLHeader, xmlKMLFooter, toPlacemarkDataTag, convertLocationToBuilder, wrapWithDataTag, toExtendedDataTag) where
 
 import Data.Location.Model
 
 import Data.Time.Format.ISO8601
-import Formatting
 import Prelude
 
+import Data.ByteString.Builder
+
 -- The KML Header
-xmlGISHeader :: String
-xmlGISHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>\n"
+xmlKMLHeader :: Builder
+xmlKMLHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>\n"
 
 -- The KML Footer
-xmlGISFooter :: String
-xmlGISFooter = "</Document></kml>"
+xmlKMLFooter :: Builder
+xmlKMLFooter = "</Document></kml>"
 
-toExtendedDataTag :: LocationRecord -> String
-toExtendedDataTag loc = if null tagContents then "" else "<ExtendedData>" ++ tagContents ++ "</ExtendedData>"
+toExtendedDataTag :: LocationRecord -> Builder
+toExtendedDataTag loc = "<ExtendedData>" <> tagContents <> "</ExtendedData>"
   where
     tagContents = mconcat [wrapWithDataTag "accuracy" (accuracy loc), wrapWithDataTag "altitude" (altitude loc)]
 
-wrapWithDataTag :: String -> Maybe Int -> String
-wrapWithDataTag _ Nothing = ""
-wrapWithDataTag name (Just x) = "<Data name=\"" ++ name ++ "\"><value>" ++ show x ++ "</value></Data>"
+wrapWithDataTag :: Builder -> Maybe Int -> Builder
+wrapWithDataTag name (Just x) = "<Data name=\"" <> name <> "\"><value>" <> intDec x <> "</value></Data>"
+wrapWithDataTag _ Nothing = mempty
 
-toPlacemarkDataTag :: LocationRecord -> String
+toPlacemarkDataTag :: LocationRecord -> Builder
 toPlacemarkDataTag x =
     "<Placemark>"
-        ++ "<TimeStamp><when>"
-        ++ iso8601Show (timestamp x)
-        ++ "</when></TimeStamp>"
-        ++ toExtendedDataTag x
-        ++ "<Point><coordinates>"
-        ++ convertLocationToString (longitudeE7 x)
-        ++ ","
-        ++ convertLocationToString (latitudeE7 x)
-        ++ "</coordinates></Point>"
-        ++ "</Placemark>\n"
+        <> "<TimeStamp><when>"
+        <> string7 (iso8601Show (timestamp x))
+        <> "</when></TimeStamp>"
+        <> toExtendedDataTag x
+        <> "<Point><coordinates>"
+        <> convertLocationToBuilder (longitudeE7 x)
+        <> ","
+        <> convertLocationToBuilder (latitudeE7 x)
+        <> "</coordinates></Point>"
+        <> "</Placemark>\n"
 
-convertLocationToString :: Int -> String
-convertLocationToString x = formatToString (fixed 7) (fromIntegral x / 10000000 :: Double)
+convertLocationToBuilder :: Int -> Builder
+convertLocationToBuilder x = doubleDec (fromIntegral x / 10000000 :: Double)

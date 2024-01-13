@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Data.Location.Internal.KMLSpec (spec) where
 
 import Data.Location.Internal.KML
@@ -5,15 +7,17 @@ import Data.Location.Model
 import Data.Time.Clock
 import Test.Hspec
 
+-- import qualified Data.Aeson.Key as xmlKMLHeader
+
 spec :: Spec
 spec = do
     describe "Data.Location.Internal.KML.xmlGISHeader" $ do
         it "Returns a KML Header string" $ do
-            xmlGISHeader `shouldBe` "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>\n"
+            xmlKMLHeader `shouldBe` "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>\n"
 
     describe "Data.Location.Internal.KML.xmlGISFooter" $ do
         it "Returns a KML Footer string" $ do
-            xmlGISFooter `shouldBe` "</Document></kml>"
+            xmlKMLFooter `shouldBe` "</Document></kml>"
 
     describe "Data.Location.Internal.KML.wrapWithDataTag" $ do
         it "Handles a Nothing value by returning an empty string" $ do
@@ -41,13 +45,13 @@ spec = do
 
     describe "Data.Location.Internal.KML.convertLocation" $ do
         it "Returns a correct string for a positive regular Longitude Number" $ do
-            convertLocationToString typicalPositiveLongitudeNumber `shouldBe` "44.7405071"
+            convertLocationToBuilder typicalPositiveLongitudeNumber `shouldBe` "44.7405071"
         it "Returns a correct string for a negative regular Latitude Number" $ do
-            convertLocationToString typicalNegativeLatitudeNumber `shouldBe` "-79.8735599"
+            convertLocationToBuilder typicalNegativeLatitudeNumber `shouldBe` "-79.8735599"
         it "Returns a correct string for small positive Longitude Number" $ do
-            convertLocationToString smallPositiveLongitudeNumber `shouldBe` "0.0005071"
+            convertLocationToBuilder smallPositiveLongitudeNumber `shouldBe` "0.0005071"
         it "Returns a correct string for small positive Longitude Number" $ do
-            convertLocationToString smallNegativeLongitudeNumber `shouldBe` "-0.0005071"
+            convertLocationToBuilder smallNegativeLongitudeNumber `shouldBe` "-0.0005071"
 
 typicalDate :: UTCTime
 typicalDate = read "2023-12-25 18:28:52.607875 UTC" :: UTCTime

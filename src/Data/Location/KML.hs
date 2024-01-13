@@ -2,15 +2,15 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE Unsafe #-}
 
-module Data.Location.KML (toXMLString) where
+module Data.Location.KML (renderKML) where
 
 import Data.Location.Internal.KML
 import Data.Location.Model
 
+import Data.ByteString.Builder
+import Data.Monoid
+
 import Prelude
 
-toXMLString :: [LocationRecord] -> String
-toXMLString x =
-    xmlGISHeader
-        ++ concatMap toPlacemarkDataTag x
-        ++ xmlGISFooter
+renderKML :: [LocationRecord] -> Builder
+renderKML x = xmlKMLHeader <> foldMap toPlacemarkDataTag x <> xmlKMLFooter

@@ -11,6 +11,8 @@ import CmdOptions
 
 import System.IO
 
+import Data.ByteString.Builder as B
+
 main :: IO ()
 main = do
     -- Get the configuration data from command line parameters
@@ -29,6 +31,5 @@ main = do
 
     -- Output as KML
     case outputFilename configuration of
-        Nothing -> putStrLn $ toXMLString listToOutput
-        Just x -> withFile x WriteMode $ \h -> do
-            hPutStr h $ KML.toXMLString listToOutput
+        Nothing -> B.hPutBuilder stdout (KML.renderKML listToOutput)
+        Just x -> B.writeFile x (KML.renderKML listToOutput)
