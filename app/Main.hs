@@ -20,7 +20,7 @@ main = do
     configuration <- getConfiguration
 
     -- Get the location records from the Google Takout file
-    locationList <- GL.getLocationRecords (inputFilename configuration)
+    locationList <- GL.getLocationRecordsFromFilePath (inputFilename configuration)
 
     -- Filter records by date if required
     now <- getCurrentTime
