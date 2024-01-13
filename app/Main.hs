@@ -11,9 +11,6 @@ import CmdOptions
 
 import System.IO
 
-addDaysUTCTime :: UTCTime -> Integer -> UTCTime
-addDaysUTCTime t x = addUTCTime (nominalDay * fromIntegral x) t
-
 main :: IO ()
 main = do
     -- Get the configuration data from command line parameters
@@ -28,7 +25,7 @@ main = do
             Nothing -> locationList
             Just x -> GL.filterOlderThan filterDate locationList
               where
-                filterDate = addDaysUTCTime now ((-1) * x)
+                filterDate = GL.addDaysUTCTime ((-1) * x) now
 
     -- Output as KML
     case outputFilename configuration of

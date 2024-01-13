@@ -2,6 +2,7 @@ module Data.Location.GoogleLocation (
     getLocationRecordsFromByteString,
     getLocationRecordsFromFilePath,
     filterOlderThan,
+    addDaysUTCTime,
 ) where
 
 import Data.Location.Model as M
@@ -14,6 +15,9 @@ import Data.ByteString.Lazy as BS
 import qualified Data.JsonStream.Parser as J
 
 import Data.Time.Clock
+
+addDaysUTCTime :: Integer -> UTCTime -> UTCTime
+addDaysUTCTime x t = addUTCTime (nominalDay * fromIntegral x) t
 
 getLocationRecordsFromByteString :: ByteString -> [LocationRecord]
 getLocationRecordsFromByteString = J.parseLazyByteString M.locationRecordsParser

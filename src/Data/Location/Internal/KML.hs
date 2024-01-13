@@ -11,10 +11,6 @@ import Data.Time.Format.ISO8601
 import Formatting
 import Prelude
 
-import qualified Data.Text as T
-import qualified Data.Text.Lazy as TL
-import qualified Data.Text.Lazy.Builder as TLB
-
 -- The KML Header
 xmlGISHeader :: String
 xmlGISHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>\n"

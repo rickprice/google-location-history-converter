@@ -3,16 +3,13 @@
 
 module Data.Location.GoogleLocationSpec (spec) where
 
-import Data.Location.KML
 import Data.Location.GoogleLocation as GL
 import Data.Location.Model as M
+import Data.String.Conversions (cs)
 import qualified Data.Text as T
 import Data.Time.Clock
 import NeatInterpolation (text)
 import Test.Hspec
-import qualified Data.JsonStream.Parser as J
-import qualified Data.ByteString as T
-import Data.String.Conversions (cs)
 
 spec :: Spec
 spec = do
@@ -21,7 +18,7 @@ spec = do
             (GL.getLocationRecordsFromByteString (cs googleLocationJSON)) `shouldBe` locationList
 
 locationList :: [M.LocationRecord]
-locationList = [typicalLocationAllFields, typicalLocationNoAccuracy, typicalLocationNoAltitude, typicalLocationNoOptionalFields]
+locationList = [typicalLocationAllFields, typicalLocationNoAltitude, typicalLocationNoAccuracy, typicalLocationNoOptionalFields]
 
 typicalDate :: UTCTime
 typicalDate = read "2023-12-25 18:28:52.607875 UTC" :: UTCTime
@@ -36,13 +33,13 @@ typicalLocationAllFields :: M.LocationRecord
 typicalLocationAllFields = M.LocationRecord typicalDate typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber (Just 183) (Just 13)
 
 typicalLocationNoAltitude :: M.LocationRecord
-typicalLocationNoAltitude = M.LocationRecord typicalDate typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber Nothing (Just 13)
+typicalLocationNoAltitude = M.LocationRecord (addDaysUTCTime 1 typicalDate) typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber Nothing (Just 13)
 
 typicalLocationNoAccuracy :: M.LocationRecord
-typicalLocationNoAccuracy = M.LocationRecord typicalDate typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber (Just 183) Nothing
+typicalLocationNoAccuracy = M.LocationRecord (addDaysUTCTime 2 typicalDate) typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber (Just 183) Nothing
 
 typicalLocationNoOptionalFields :: M.LocationRecord
-typicalLocationNoOptionalFields = M.LocationRecord typicalDate typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber Nothing Nothing
+typicalLocationNoOptionalFields = M.LocationRecord (addDaysUTCTime 3 typicalDate) typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber Nothing Nothing
 
 googleLocationJSON :: T.Text
 googleLocationJSON =
@@ -368,7 +365,6 @@ googleLocationJSON =
         "latitudeE7": 447405071,
         "longitudeE7": -798735599,
         "accuracy": 13,
-        "altitude": 183,
         "verticalAccuracy": 1,
         "activity": [
             {
@@ -673,20 +669,16 @@ googleLocationJSON =
             ]
         },
         "osLevel": 34,
-        "serverTimestamp": "2023-12-25T02:12:22.763Z",
-        "deviceTimestamp": "2023-12-25T02:12:21.707Z",
+        "serverTimestamp": "2023-12-26T02:12:22.763Z",
+        "deviceTimestamp": "2023-12-26T02:12:21.707Z",
         "batteryCharging": false,
         "formFactor": "PHONE",
-        "timestamp": "2023-12-25T18:28:52.607875Z"
-        }
-    ]
-    },
-   {
+        "timestamp": "2023-12-26T18:28:52.607875Z"
+        },
+        {
         "latitudeE7": 447405071,
         "longitudeE7": -798735599,
-        "accuracy": 13,
         "altitude": 183,
-        "verticalAccuracy": 1,
         "activity": [
             {
             "activity": [
@@ -990,20 +982,15 @@ googleLocationJSON =
             ]
         },
         "osLevel": 34,
-        "serverTimestamp": "2023-12-25T02:12:22.763Z",
-        "deviceTimestamp": "2023-12-25T02:12:21.707Z",
+        "serverTimestamp": "2023-12-27T02:12:22.763Z",
+        "deviceTimestamp": "2023-12-27T02:12:21.707Z",
         "batteryCharging": false,
         "formFactor": "PHONE",
-        "timestamp": "2023-12-25T18:28:52.607875Z"
-        }
-    ]
-    }
-    |{
+        "timestamp": "2023-12-27T18:28:52.607875Z"
+        },
+        {
         "latitudeE7": 447405071,
         "longitudeE7": -798735599,
-        "accuracy": 13,
-        "altitude": 183,
-        "verticalAccuracy": 1,
         "activity": [
             {
             "activity": [
@@ -1307,17 +1294,12 @@ googleLocationJSON =
             ]
         },
         "osLevel": 34,
-        "serverTimestamp": "2023-12-25T02:12:22.763Z",
-        "deviceTimestamp": "2023-12-25T02:12:21.707Z",
+        "serverTimestamp": "2023-12-28T02:12:22.763Z",
+        "deviceTimestamp": "2023-12-28T02:12:21.707Z",
         "batteryCharging": false,
         "formFactor": "PHONE",
-        "timestamp": "2023-12-25T18:28:52.607875Z"
+        "timestamp": "2023-12-28T18:28:52.607875Z"
         }
-    ]
-    }
-    | 
-    
-    
     ]
     }
     |]
