@@ -24,24 +24,15 @@ xmlKMLHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://ww
 xmlKMLFooter :: Builder
 xmlKMLFooter = "</Document></kml>"
 
--- toExtendedDataTag :: LocationRecord -> String
--- toExtendedDataTag loc = if null tagContents then "" else "<ExtendedData>" ++ tagContents ++ "</ExtendedData>"
---   where
---     tagContents = mconcat [wrapWithDataTag "accuracy" (accuracy loc), wrapWithDataTag "altitude" (altitude loc)]
--- toExtendedDataTag loc = if null (toLazyText tagContents) then mempty else "<ExtendedData>" <> tagContents <> "</ExtendedData>"
---
-
 extendedDataToProcess :: [(Builder, LocationRecord -> Maybe Int)]
 extendedDataToProcess = [("accuracy", accuracy), ("altitude", altitude)]
-
-extendedValues :: LocationRecord -> [(Builder, LocationRecord -> Maybe Int)] -> [(Builder, Int)]
-extendedValues loc xs = mapMaybe (\(x, y) -> if isJust (y loc) then Just (x, fromJust (y loc)) else Nothing) xs
 
 toExtendedDataTag :: LocationRecord -> Builder
 toExtendedDataTag loc = if null extendedDataList then mempty else "<ExtendedData>" <> tagContents <> "</ExtendedData>"
   where
     tagContents = mconcat (fmap wrapWithDataTag extendedDataList)
     extendedDataList = extendedValues loc extendedDataToProcess
+    extendedValues loc' = mapMaybe (\(x, y) -> if isJust (y loc') then Just (x, fromJust (y loc')) else Nothing)
 
 wrapWithDataTag :: (Builder, Int) -> Builder
 wrapWithDataTag (x, y) = "<Data name=\"" <> x <> "\"><value>" <> bformat int y <> "</value></Data>"
