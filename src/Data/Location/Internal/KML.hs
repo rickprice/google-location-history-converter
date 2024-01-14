@@ -31,20 +31,19 @@ xmlKMLFooter = "</Document></kml>"
 -- toExtendedDataTag loc = if null (toLazyText tagContents) then mempty else "<ExtendedData>" <> tagContents <> "</ExtendedData>"
 --
 
-extendedDataToProcess:: [(Builder,LocationRecord-> Maybe Int)]
-extendedDataToProcess = [("accuracy",accuracy),("altitude",altitude)]
+extendedDataToProcess :: [(Builder, LocationRecord -> Maybe Int)]
+extendedDataToProcess = [("accuracy", accuracy), ("altitude", altitude)]
 
-extendedValues:: LocationRecord -> [(Builder, LocationRecord -> Maybe Int)] -> [(Builder, Int)]
-extendedValues loc xs =  mapMaybe (\(x,y) -> if isJust (y loc) then Just (x, fromJust (y loc)) else Nothing) xs
-
+extendedValues :: LocationRecord -> [(Builder, LocationRecord -> Maybe Int)] -> [(Builder, Int)]
+extendedValues loc xs = mapMaybe (\(x, y) -> if isJust (y loc) then Just (x, fromJust (y loc)) else Nothing) xs
 
 toExtendedDataTag :: [(Builder, Int)] -> Builder
 toExtendedDataTag xs = if null xs then mempty else "<ExtendedData>" <> tagContents <> "</ExtendedData>"
   where
-    tagContents = mconcat (fmap  wrapWithDataTag xs)
+    tagContents = mconcat (fmap wrapWithDataTag xs)
 
 wrapWithDataTag :: (Builder, Int) -> Builder
-wrapWithDataTag (x,y) = "<Data name=\"" <> x <> "\"><value>" <> bformat int y <> "</value></Data>"
+wrapWithDataTag (x, y) = "<Data name=\"" <> x <> "\"><value>" <> bformat int y <> "</value></Data>"
 
 toPlacemarkDataTag :: LocationRecord -> Builder
 toPlacemarkDataTag x =

@@ -27,14 +27,14 @@ spec = do
     --     it "Handles a Location with all values by converting it to an XML Snippet" $ do
     --         toExtendedDataTag typicalLocationAllFields `shouldBe` "<ExtendedData><Data name=\"accuracy\"><value>10</value></Data><Data name=\"altitude\"><value>126</value></Data></ExtendedData>"
 
-        -- it "Handles a Location with all values but Altitude by converting it to an XML Snippet" $ do
-        --     toExtendedDataTag typicalLocationNoAltitude `shouldBe` "<ExtendedData><Data name=\"accuracy\"><value>10</value></Data></ExtendedData>"
-        --
-        -- it "Handles a Location with all values but Accuracy by converting it to an XML Snippet" $ do
-        --     toExtendedDataTag typicalLocationNoAccuracy `shouldBe` "<ExtendedData><Data name=\"altitude\"><value>126</value></Data></ExtendedData>"
-        --
-        -- it "Handles a Location without optional values by converting it to an XML Snippet" $ do
-        --     toExtendedDataTag typicalLocationNoOptionalFields `shouldBe` ""
+    -- it "Handles a Location with all values but Altitude by converting it to an XML Snippet" $ do
+    --     toExtendedDataTag typicalLocationNoAltitude `shouldBe` "<ExtendedData><Data name=\"accuracy\"><value>10</value></Data></ExtendedData>"
+    --
+    -- it "Handles a Location with all values but Accuracy by converting it to an XML Snippet" $ do
+    --     toExtendedDataTag typicalLocationNoAccuracy `shouldBe` "<ExtendedData><Data name=\"altitude\"><value>126</value></Data></ExtendedData>"
+    --
+    -- it "Handles a Location without optional values by converting it to an XML Snippet" $ do
+    --     toExtendedDataTag typicalLocationNoOptionalFields `shouldBe` ""
 
     describe "Data.Location.Internal.KML.toPlacemarkDataTag" $ do
         it "Returns a correctly formatted Placemark snippet from a Location" $ do
