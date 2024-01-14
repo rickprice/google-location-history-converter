@@ -1,11 +1,11 @@
--- {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE QuasiQuotes #-}
 
 module Data.Location.KMLSpec (spec) where
 
-import Data.ByteString
-import Data.ByteString.Builder
-import Data.Location.Internal.KML
+import Data.Text.Lazy.Builder as B
+
+-- import Data.Location.Internal.KML
 import Data.Location.KML
 import Data.Location.Model
 import Data.String.Conversions (cs)
@@ -18,7 +18,8 @@ spec :: Spec
 spec = do
     describe "Data.Location.KML.xmlGISHeader" $ do
         it "Converts a list of Locations to XML" $ do
-            (cs (toLazyByteString (renderKML locationList))) `shouldBe` locationListKMLAsString
+            -- (cs (toLazyByteString (renderKML locationList))) `shouldBe` locationListKMLAsString
+            toLazyText (renderKML locationList) `shouldBe` cs locationListKMLAsString
 
 locationList :: [LocationRecord]
 locationList = [typicalLocationAllFields, typicalLocationNoAccuracy, typicalLocationNoAltitude, typicalLocationNoOptionalFields]

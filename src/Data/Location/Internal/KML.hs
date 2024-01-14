@@ -10,7 +10,9 @@ import Data.Location.Model
 import Data.Time.Format.ISO8601
 import Prelude
 
-import Data.ByteString.Builder
+import Data.Text.Lazy.Builder
+
+import Formatting
 
 -- The KML Header
 xmlKMLHeader :: Builder
@@ -20,20 +22,26 @@ xmlKMLHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://ww
 xmlKMLFooter :: Builder
 xmlKMLFooter = "</Document></kml>"
 
+-- toExtendedDataTag :: LocationRecord -> String
+-- toExtendedDataTag loc = if null tagContents then "" else "<ExtendedData>" ++ tagContents ++ "</ExtendedData>"
+--   where
+--     tagContents = mconcat [wrapWithDataTag "accuracy" (accuracy loc), wrapWithDataTag "altitude" (altitude loc)]
+-- toExtendedDataTag loc = if null (toLazyText tagContents) then mempty else "<ExtendedData>" <> tagContents <> "</ExtendedData>"
+
 toExtendedDataTag :: LocationRecord -> Builder
 toExtendedDataTag loc = "<ExtendedData>" <> tagContents <> "</ExtendedData>"
   where
     tagContents = mconcat [wrapWithDataTag "accuracy" (accuracy loc), wrapWithDataTag "altitude" (altitude loc)]
 
 wrapWithDataTag :: Builder -> Maybe Int -> Builder
-wrapWithDataTag name (Just x) = "<Data name=\"" <> name <> "\"><value>" <> intDec x <> "</value></Data>"
+wrapWithDataTag name (Just x) = "<Data name=\"" <> name <> "\"><value>" <> bformat int x <> "</value></Data>"
 wrapWithDataTag _ Nothing = mempty
 
 toPlacemarkDataTag :: LocationRecord -> Builder
 toPlacemarkDataTag x =
     "<Placemark>"
         <> "<TimeStamp><when>"
-        <> string7 (iso8601Show (timestamp x))
+        <> bformat string (iso8601Show (timestamp x))
         <> "</when></TimeStamp>"
         <> toExtendedDataTag x
         <> "<Point><coordinates>"
@@ -44,4 +52,4 @@ toPlacemarkDataTag x =
         <> "</Placemark>\n"
 
 convertLocationToBuilder :: Int -> Builder
-convertLocationToBuilder x = doubleDec (fromIntegral x / 10000000 :: Double)
+convertLocationToBuilder x = bformat float (fromIntegral x / 10000000 :: Double)

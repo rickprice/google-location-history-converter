@@ -7,8 +7,10 @@ module Data.Location.KML (renderKML) where
 import Data.Location.Internal.KML
 import Data.Location.Model
 
-import Data.ByteString.Builder
+-- import Data.ByteString.Builder
+
 import Data.Monoid
+import Data.Text.Lazy.Builder
 
 import Prelude
 

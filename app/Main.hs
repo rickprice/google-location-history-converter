@@ -11,7 +11,8 @@ import CmdOptions
 
 import System.IO
 
-import Data.ByteString.Builder as B
+import Data.Text.Lazy.Builder as B
+import Data.Text.Lazy.IO as BIO
 
 main :: IO ()
 main = do
@@ -31,5 +32,5 @@ main = do
 
     -- Output as KML
     case outputFilename configuration of
-        Nothing -> B.hPutBuilder stdout (KML.renderKML listToOutput)
-        Just x -> B.writeFile x (KML.renderKML listToOutput)
+        Nothing -> BIO.hPutStr stdout (B.toLazyText (KML.renderKML listToOutput))
+        Just x -> BIO.writeFile x (B.toLazyText (KML.renderKML listToOutput))
