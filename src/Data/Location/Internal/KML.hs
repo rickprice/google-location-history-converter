@@ -14,6 +14,8 @@ import Data.Text.Lazy.Builder
 
 import Formatting
 
+import Data.Maybe
+
 -- The KML Header
 xmlKMLHeader :: Builder
 xmlKMLHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>\n"
@@ -27,15 +29,22 @@ xmlKMLFooter = "</Document></kml>"
 --   where
 --     tagContents = mconcat [wrapWithDataTag "accuracy" (accuracy loc), wrapWithDataTag "altitude" (altitude loc)]
 -- toExtendedDataTag loc = if null (toLazyText tagContents) then mempty else "<ExtendedData>" <> tagContents <> "</ExtendedData>"
+--
 
-toExtendedDataTag :: LocationRecord -> Builder
-toExtendedDataTag loc = "<ExtendedData>" <> tagContents <> "</ExtendedData>"
+extendedDataToProcess:: [(Builder,LocationRecord-> Maybe Int)]
+extendedDataToProcess = [("accuracy",accuracy),("altitude",altitude)]
+
+extendedValues:: LocationRecord -> [(Builder, LocationRecord -> Maybe Int)] -> [(Builder, Int)]
+extendedValues loc xs =  mapMaybe (\(x,y) -> if isJust (y loc) then Just (x, fromJust (y loc)) else Nothing) xs
+
+
+toExtendedDataTag :: [(Builder, Int)] -> Builder
+toExtendedDataTag xs = if null xs then mempty else "<ExtendedData>" <> tagContents <> "</ExtendedData>"
   where
-    tagContents = mconcat [wrapWithDataTag "accuracy" (accuracy loc), wrapWithDataTag "altitude" (altitude loc)]
+    tagContents = mconcat (fmap  wrapWithDataTag xs)
 
-wrapWithDataTag :: Builder -> Maybe Int -> Builder
-wrapWithDataTag name (Just x) = "<Data name=\"" <> name <> "\"><value>" <> bformat int x <> "</value></Data>"
-wrapWithDataTag _ Nothing = mempty
+wrapWithDataTag :: (Builder, Int) -> Builder
+wrapWithDataTag (x,y) = "<Data name=\"" <> x <> "\"><value>" <> bformat int y <> "</value></Data>"
 
 toPlacemarkDataTag :: LocationRecord -> Builder
 toPlacemarkDataTag x =
@@ -43,7 +52,7 @@ toPlacemarkDataTag x =
         <> "<TimeStamp><when>"
         <> bformat string (iso8601Show (timestamp x))
         <> "</when></TimeStamp>"
-        <> toExtendedDataTag x
+        <> toExtendedDataTag (extendedValues x extendedDataToProcess)
         <> "<Point><coordinates>"
         <> convertLocationToBuilder (longitudeE7 x)
         <> ","
