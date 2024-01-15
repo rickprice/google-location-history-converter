@@ -3,7 +3,7 @@
 
 module Data.Location.KMLSpec (spec) where
 
-import Data.Text.Lazy.Builder as B
+import qualified Data.Text.Lazy.Builder as B
 
 -- import Data.Location.Internal.KML
 import Data.Location.KML
@@ -19,13 +19,13 @@ spec = do
     describe "Data.Location.KML.xmlGISHeader" $ do
         it "Converts a list of Locations to XML" $ do
             -- (cs (toLazyByteString (renderKML locationList))) `shouldBe` locationListKMLAsString
-            toLazyText (renderKML locationList) `shouldBe` cs locationListKMLAsString
+            B.toLazyText (renderKML locationList) `shouldBe` cs locationListKMLAsString
 
 locationList :: [LocationRecord]
 locationList = [typicalLocationAllFields, typicalLocationNoAccuracy, typicalLocationNoAltitude, typicalLocationNoOptionalFields]
 
 typicalDate :: UTCTime
-typicalDate = read "2023-12-25 18:28:52.607875 UTC" :: UTCTime
+typicalDate = Prelude.read "2023-12-25 18:28:52.607875 UTC" :: UTCTime
 
 typicalPositiveLongitudeNumber :: Int
 typicalPositiveLongitudeNumber = 447405071
