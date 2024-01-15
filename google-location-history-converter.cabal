@@ -1,0 +1,108 @@
+cabal-version: 2.2
+
+-- This file has been generated from package.yaml by hpack version 0.36.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           google-location-history-converter
+version:        0.2.0.0
+description:    Please see the README on GitHub at <https://github.com/rickprice/google-location-history-converter#readme>
+homepage:       https://github.com/rickprice/google-location-history-converter#readme
+bug-reports:    https://github.com/rickprice/google-location-history-converter/issues
+author:         Frederick Price
+maintainer:     fprice@pricemail.ca
+copyright:      BSD-3-Clause
+license:        BSD-3-Clause
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    CHANGELOG.md
+
+source-repository head
+  type: git
+  location: https://github.com/rickprice/google-location-history-converter
+
+library
+  exposed-modules:
+      Data.Location.GoogleLocation
+      Data.Location.Internal.KML
+      Data.Location.KML
+      Data.Location.Model
+  other-modules:
+      Paths_google_location_history_converter
+  autogen-modules:
+      Paths_google_location_history_converter
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -O2
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , bytestring
+    , formatting
+    , json-stream
+    , neat-interpolation
+    , optparse-applicative
+    , string-conversions
+    , tar
+    , text
+    , time
+    , zlib
+  default-language: Haskell2010
+
+executable google-location-history-converter-exe
+  main-is: Main.hs
+  other-modules:
+      CmdOptions
+      Paths_google_location_history_converter
+  autogen-modules:
+      Paths_google_location_history_converter
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -O2 -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , bytestring
+    , formatting
+    , google-location-history-converter
+    , json-stream
+    , neat-interpolation
+    , optparse-applicative
+    , string-conversions
+    , tar
+    , text
+    , time
+    , zlib
+  default-language: Haskell2010
+
+test-suite google-location-history-converter-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Data.Location.GoogleLocationSpec
+      Data.Location.Internal.KMLSpec
+      Data.Location.KMLSpec
+      Paths_google_location_history_converter
+  autogen-modules:
+      Paths_google_location_history_converter
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -O2 -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , bytestring
+    , formatting
+    , google-location-history-converter
+    , hspec
+    , json-stream
+    , neat-interpolation
+    , optparse-applicative
+    , string-conversions
+    , tar
+    , text
+    , time
+    , zlib
+  default-language: Haskell2010
