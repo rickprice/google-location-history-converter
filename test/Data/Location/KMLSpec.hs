@@ -1,6 +1,18 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE QuasiQuotes #-}
+{-# OPTIONS_HADDOCK show-extensions #-}
 
+{-|
+Module      : Data.Location.KMLSpec
+Description : Google Takeout Location to KML Converter
+Copyright   : (c) 2024 Frederick Price
+License     : BSD-3-Clause
+Maintainer  : fprice@pricemail.ca
+Stability   : experimental
+Portability : POSIX
+
+Command line utility and library to convert Google Takeout Location data to KML format 
+-}
 module Data.Location.KMLSpec (spec) where
 
 import qualified Data.Text.Lazy.Builder as B
@@ -18,8 +30,8 @@ spec :: Spec
 spec = do
     describe "Data.Location.KML.xmlGISHeader" $ do
         it "Converts a list of Locations to XML" $ do
-            -- (cs (toLazyByteString (renderKML locationList))) `shouldBe` locationListKMLAsString
-            B.toLazyText (renderKML locationList) `shouldBe` cs locationListKMLAsString
+            -- (cs (toLazyByteString (toKML locationList))) `shouldBe` locationListKMLAsString
+            B.toLazyText (toKML locationList) `shouldBe` cs locationListKMLAsString
 
 locationList :: [LocationRecord]
 locationList = [typicalLocationAllFields, typicalLocationNoAccuracy, typicalLocationNoAltitude, typicalLocationNoOptionalFields]

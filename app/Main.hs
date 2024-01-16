@@ -1,5 +1,17 @@
 {-# LANGUAGE Unsafe #-}
+{-# OPTIONS_HADDOCK show-extensions #-}
 
+{-|
+Module      : Main
+Description : Google Takeout Location to KML Converter
+Copyright   : (c) 2024 Frederick Price
+License     : BSD-3-Clause
+Maintainer  : fprice@pricemail.ca
+Stability   : experimental
+Portability : POSIX
+
+Command line utility and library to convert Google Takeout Location data to KML format 
+-}
 module Main (main) where
 
 import qualified Data.Location.GoogleLocation as GL
@@ -32,5 +44,5 @@ main = do
 
     -- Output as KML
     case outputFilename configuration of
-        Nothing -> BIO.hPutStr stdout (B.toLazyText (KML.renderKML listToOutput))
-        Just x -> BIO.writeFile x (B.toLazyText (KML.renderKML listToOutput))
+        Nothing -> BIO.hPutStr stdout (B.toLazyText (KML.toKML listToOutput))
+        Just x -> BIO.writeFile x (B.toLazyText (KML.toKML listToOutput))

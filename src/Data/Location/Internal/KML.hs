@@ -2,7 +2,19 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE Unsafe #-}
+{-# OPTIONS_HADDOCK show-extensions #-}
 
+{-|
+Module      : Data.Location.Internal.KML
+Description : Google Takeout Location to KML Converter
+Copyright   : (c) 2024 Frederick Price
+License     : BSD-3-Clause
+Maintainer  : fprice@pricemail.ca
+Stability   : experimental
+Portability : POSIX
+
+Command line utility and library to convert Google Takeout Location data to KML format 
+-}
 module Data.Location.Internal.KML (xmlKMLHeader, xmlKMLFooter, toPlacemarkDataTag, convertLocationToBuilder, wrapWithDataTag, toExtendedDataTag) where
 
 import Data.Location.Model

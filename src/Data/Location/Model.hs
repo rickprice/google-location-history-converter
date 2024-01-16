@@ -1,10 +1,29 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE DuplicateRecordFields #-}
-{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE Unsafe #-}
+{-# OPTIONS_HADDOCK show-extensions #-}
 
-module Data.Location.Model (LocationRecord (..), locationRecordParser, LocationRecords (..), locationRecordsParser) where
+{-|
+Module      : Data.Location.Model
+Description : Google Takeout Location to KML Converter
+Copyright   : (c) 2024 Frederick Price
+License     : BSD-3-Clause
+Maintainer  : fprice@pricemail.ca
+Stability   : experimental
+Portability : POSIX
+
+The Rosetta Stone module that defines GIS Location records
+-}
+module Data.Location.Model (
+-- * Overview
+-- $overview
+
+-- * Types
+LocationRecord (..),
+LocationRecords (..),
+) where
+
 
 import Data.Aeson
 
@@ -12,7 +31,6 @@ import Data.Time.Clock
 import GHC.Generics
 import Prelude
 
-import qualified Data.JsonStream.Parser as J
 
 -- Record that tracks a location IE a Placemark in KML
 data LocationRecord = LocationRecord
@@ -36,16 +54,6 @@ newtype LocationRecords = LocationRecords
 -- instance ToJSON LocationRecords
 instance FromJSON LocationRecords
 
--- The Parser setup
-locationRecordParser :: J.Parser LocationRecord
-locationRecordParser =
-    LocationRecord
-        <$> "timestamp" J..: J.value
-            <*> "latitudeE7" J..: J.integer
-            <*> "longitudeE7" J..: J.integer
-            <*> "altitude" J..:? J.integer
-            <*> "accuracy" J..:? J.integer
-
-locationRecordsParser :: J.Parser LocationRecord
-locationRecordsParser =
-    J.objectWithKey "locations" $ J.arrayOf locationRecordParser
+{- $overview
+ This module holds the data definition for LocationRecord which is a container for typical GIS location information.
+-}
