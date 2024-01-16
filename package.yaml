@@ -23,11 +23,11 @@ dependencies:
 - aeson >=2.1.2.1 && <2.3
 - base >=4.7 && <4.20
 - bytestring >=0.11.5.3 && <0.13
-- formatting
+- formatting >=7.2 && <7.3
 - json-stream >=0.4.5.3 && <0.5
-- neat-interpolation
-- optparse-applicative
-- string-conversions
+- neat-interpolation >=0.5 && <0.6
+- optparse-applicative >=0.17 && <0.19
+- string-conversions >= 0.4 && <0.5
 - tar >=0.5.1.1 && <0.6
 - text >= 2.0.2 && <2.2
 - time >=1.12.2 && <1.13
@@ -68,5 +68,5 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - hspec
+    - hspec >=2.10 && <2.12
     - google-location-history-converter
