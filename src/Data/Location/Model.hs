@@ -4,6 +4,17 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE Unsafe #-}
 
+{-|
+Module      : Data.Location.Model
+Description : Google Takeout Location to KML Converter
+Copyright   : (c) 2024 Frederick Price
+License     : BSD-3-Clause
+Maintainer  : fprice@pricemail.ca
+Stability   : experimental
+Portability : POSIX
+
+Command line utility and library to convert Google Takeout Location data to KML format 
+-}
 module Data.Location.Model (LocationRecord (..), locationRecordParser, LocationRecords (..), locationRecordsParser) where
 
 import Data.Aeson
