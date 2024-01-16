@@ -18,6 +18,8 @@ variables:
   license: BSD-3-Clause
   email: fprice@pricemail.ca
   year: "2024"
+  _haskell_module_shortdesc: "FrederickPrice Short Description"
+  _haskell_module_longdesc: "FrederickPrice Long Description"
 
 license-headers:
   haskell:
