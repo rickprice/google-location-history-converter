@@ -37,18 +37,18 @@ library
       src
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -O2
   build-depends:
-      aeson
-    , base >=4.7 && <5
-    , bytestring
-    , formatting
-    , json-stream
-    , neat-interpolation
-    , optparse-applicative
-    , string-conversions
-    , tar
-    , text
-    , time
-    , zlib
+      aeson >=2.0 && <2.3
+    , base >=4.7 && <4.20
+    , bytestring >=0.10 && <0.13
+    , formatting >=7.1 && <7.3
+    , json-stream ==0.4.*
+    , neat-interpolation ==0.5.*
+    , optparse-applicative >=0.16 && <0.19
+    , string-conversions ==0.4.*
+    , tar >=0.5.1.1 && <0.6
+    , text >=1.2 && <2.2
+    , time >=1.9 && <1.13
+    , zlib >=0.6.3.0 && <0.7
   default-language: Haskell2010
 
 executable google-location-history-converter-exe
@@ -62,19 +62,19 @@ executable google-location-history-converter-exe
       app
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -O2 -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      aeson
-    , base >=4.7 && <5
-    , bytestring
-    , formatting
+      aeson >=2.0 && <2.3
+    , base >=4.7 && <4.20
+    , bytestring >=0.10 && <0.13
+    , formatting >=7.1 && <7.3
     , google-location-history-converter
-    , json-stream
-    , neat-interpolation
-    , optparse-applicative
-    , string-conversions
-    , tar
-    , text
-    , time
-    , zlib
+    , json-stream ==0.4.*
+    , neat-interpolation ==0.5.*
+    , optparse-applicative >=0.16 && <0.19
+    , string-conversions ==0.4.*
+    , tar >=0.5.1.1 && <0.6
+    , text >=1.2 && <2.2
+    , time >=1.9 && <1.13
+    , zlib >=0.6.3.0 && <0.7
   default-language: Haskell2010
 
 test-suite google-location-history-converter-test
@@ -91,18 +91,18 @@ test-suite google-location-history-converter-test
       test
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -O2 -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      aeson
-    , base >=4.7 && <5
-    , bytestring
-    , formatting
+      aeson >=2.0 && <2.3
+    , base >=4.7 && <4.20
+    , bytestring >=0.10 && <0.13
+    , formatting >=7.1 && <7.3
     , google-location-history-converter
-    , hspec
-    , json-stream
-    , neat-interpolation
-    , optparse-applicative
-    , string-conversions
-    , tar
-    , text
-    , time
-    , zlib
+    , hspec >=2.8 && <2.12
+    , json-stream ==0.4.*
+    , neat-interpolation ==0.5.*
+    , optparse-applicative >=0.16 && <0.19
+    , string-conversions ==0.4.*
+    , tar >=0.5.1.1 && <0.6
+    , text >=1.2 && <2.2
+    , time >=1.9 && <1.13
+    , zlib >=0.6.3.0 && <0.7
   default-language: Haskell2010
