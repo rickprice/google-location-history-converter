@@ -18,8 +18,9 @@ variables:
   license: BSD-3-Clause
   email: fprice@pricemail.ca
   year: "2024"
-  _haskell_module_shortdesc: "FrederickPrice Short Description"
-  _haskell_module_longdesc: "FrederickPrice Long Description"
+  _haskell_module_shortdesc: "Google Takeout Location to KML Converter"
+  _haskell_module_longdesc: "Command line utility and library to convert Google Takeout Location data to KML format
+"
 
 license-headers:
   haskell:
