@@ -13,11 +13,16 @@ Maintainer  : fprice@pricemail.ca
 Stability   : experimental
 Portability : POSIX
 
-Command line utility and library to convert Google Takeout Location data to KML format 
+Module to parse Google Takeout Location records as JSON and convert them to Location records
 -}
 module Data.Location.GoogleLocation (
-    getLocationRecordsFromByteString,
+-- * Overview
+-- $overview
+
+-- * Converters
     getLocationRecordsFromFilePath,
+    getLocationRecordsFromByteString,
+-- * Utility functions
     filterOlderThan,
     addDaysUTCTime,
 ) where
@@ -95,3 +100,6 @@ locationRecordsParser :: J.Parser LocationRecord
 locationRecordsParser =
     J.objectWithKey "locations" $ J.arrayOf locationRecordParser
 
+{- $overview
+ This module lets you convert Google Takeout Location records into Location values.
+-}

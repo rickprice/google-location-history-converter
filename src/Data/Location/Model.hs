@@ -13,7 +13,7 @@ Maintainer  : fprice@pricemail.ca
 Stability   : experimental
 Portability : POSIX
 
-Command line utility and library to convert Google Takeout Location data to KML format
+The Rosetta Stone module that defines GIS Location records
 -}
 module Data.Location.Model (
 -- * Overview
@@ -55,7 +55,5 @@ newtype LocationRecords = LocationRecords
 instance FromJSON LocationRecords
 
 {- $overview
- This module holds LocationRecords
+ This module holds the data definition for LocationRecord which is a container for typical GIS location information.
 -}
-
-

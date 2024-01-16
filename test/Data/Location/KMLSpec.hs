@@ -30,8 +30,8 @@ spec :: Spec
 spec = do
     describe "Data.Location.KML.xmlGISHeader" $ do
         it "Converts a list of Locations to XML" $ do
-            -- (cs (toLazyByteString (renderKML locationList))) `shouldBe` locationListKMLAsString
-            B.toLazyText (renderKML locationList) `shouldBe` cs locationListKMLAsString
+            -- (cs (toLazyByteString (toKML locationList))) `shouldBe` locationListKMLAsString
+            B.toLazyText (toKML locationList) `shouldBe` cs locationListKMLAsString
 
 locationList :: [LocationRecord]
 locationList = [typicalLocationAllFields, typicalLocationNoAccuracy, typicalLocationNoAltitude, typicalLocationNoOptionalFields]

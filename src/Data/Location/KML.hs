@@ -12,19 +12,17 @@ Maintainer  : fprice@pricemail.ca
 Stability   : experimental
 Portability : POSIX
 
-Command line utility and library to convert Google Takeout Location data to KML format 
+Module to take Location records and output them as KML
 -}
-module Data.Location.KML (renderKML) where
+module Data.Location.KML (toKML) where
 
 import Data.Location.Internal.KML
 import Data.Location.Model
-
--- import Data.ByteString.Builder
 
 import Data.Monoid
 import Data.Text.Lazy.Builder
 
 import Prelude
 
-renderKML :: [LocationRecord] -> Builder
-renderKML x = xmlKMLHeader <> foldMap toPlacemarkDataTag x <> xmlKMLFooter
+toKML :: [LocationRecord] -> Builder
+toKML x = xmlKMLHeader <> foldMap toPlacemarkDataTag x <> xmlKMLFooter
