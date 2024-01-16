@@ -38,12 +38,6 @@ import qualified Data.JsonStream.Parser as J
 
 import Data.Time.Clock
 
-addDaysUTCTime :: Integer -> UTCTime -> UTCTime
-addDaysUTCTime x = addUTCTime (nominalDay * fromIntegral x)
-
-getLocationRecordsFromByteString :: BS.ByteString -> [LocationRecord]
-getLocationRecordsFromByteString = J.parseLazyByteString locationRecordsParser
-
 {- | This is like the standard 'foldr' function on lists, but for 'Entries'.
  Compared to 'foldEntries' it skips failures.
 -}
@@ -71,7 +65,7 @@ entryIsLocationData e = case Tar.entryContent e of
     doesPathMatch :: String -> Bool
     doesPathMatch p = "Takeout/Location History (Timeline)/Records.json" == p
 
--- Get the location records from the Google Takout Data TGZ file
+{- | Return a list of LocationRecords parsed from a Google Takeout Location file in .tgz format-}
 getLocationRecordsFromFilePath :: FilePath -> IO [LocationRecord]
 getLocationRecordsFromFilePath filePath = do
     fileContent <- GZip.decompress <$> BS.readFile filePath
@@ -82,7 +76,15 @@ getLocationRecordsFromFilePath filePath = do
     -- return (J.parseLazyByteString M.locationRecordsParser locationRecordFile)
     return (getLocationRecordsFromByteString locationRecordFile)
 
--- Utility funnction to filter data older than the given date
+{- | Return a list of LocationRecords parsed from a ByteString-}
+getLocationRecordsFromByteString :: BS.ByteString -> [LocationRecord]
+getLocationRecordsFromByteString = J.parseLazyByteString locationRecordsParser
+
+{- | Move a UTCTime forward or backward by the given number of days-}
+addDaysUTCTime :: Integer -> UTCTime -> UTCTime
+addDaysUTCTime x = addUTCTime (nominalDay * fromIntegral x)
+
+{- | Return a list of LocationRecords records newer than the given UTCTime-}
 filterOlderThan :: UTCTime -> [LocationRecord] -> [LocationRecord]
 filterOlderThan filterDate = Prelude.filter (\x -> timestamp x > filterDate)
 
