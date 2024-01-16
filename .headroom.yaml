@@ -1,49 +1,35 @@
 ## This is the configuration file for Headroom.
 ## See https://github.com/vaclavsvejcar/headroom for more details.
 
-## Defines with which version of Headroom this configuration is compatible.
-## Headroom uses this field to detect whether your configuration doesn't need
-## any manual migration steps in case that it's older than your current Headroom
-## version. You don't need to touch this field unless explicitly stated in
-## migration guide during upgrading Headroom to new version.
 version: 0.4.2.0
 
-## Defines the behaviour how to handle license headers, possible options are:
-##
-##   - add     = (default) adds license header to files with no existing header
-##               (same as '-a|--add-headers' command line argument)
-##   - drop    = drops existing license header from without replacement
-##               (same as '-d|--drop-headers' command line argument)
-##   - replace = adds or replaces existing license header
-##               (same as '-r|--replace-headers' command line argument)
-run-mode: add
+run-mode: replace
 
-## Paths to source code files (either files or directories),
-## same as '-s|--source-path=PATH' command line argument (can be used multiple
-## times for more than one path).
 source-paths:
-- src
-- app
-- test
+  - app
+  - src
+  - test
 
-## Allows to define list of regular expressions that will be matched against
-## 'source-paths' and such paths will be excluded from processing. Same as
-## '-e|--excluded-path=REGEX' command line argument (can be used multiple times
-## for more than one path).
-excluded-paths: []
-
-## If set to 'true', Headroom tries to detect whether any VCS (like GIT) is used
-## for current project and if yes, it loads rules for ignored files and excludes
-## all source paths that matches these rules.
-exclude-ignored-paths: false
-
-## Paths to template files (either files or directories),
-## same as '-t|--template-path=PATH' command line argument (can be used multiple
-## times for more than one path).
 template-paths:
-- headroom-templates
+  - headroom-templates
 
-## Variables (key-value) to replace in templates,
-## same as '-v|--variable="KEY=VALUE"' command line argument (can be used
-## multiple times for more than one path).
-variables: {}
+variables:
+  author: Frederick Price
+  license: BSD-3-Clause
+  email: fprice@pricemail.ca
+  year: "2024"
+
+license-headers:
+  haskell:
+    put-after: ["^{-#"]
+    put-before: ["^module"]
+    margin-top-code: 1
+    line-comment:
+      prefixed-by: ^--
+
+post-process:
+  update-copyright:
+    enabled: true
+    config:
+      selected-authors-only: ["{{ author }}"]
+
