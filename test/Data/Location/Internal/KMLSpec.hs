@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# OPTIONS_HADDOCK show-extensions #-}
 
-{-|
+{- |
 Module      : Data.Location.Internal.KMLSpec
 Description : Google Takeout Location to KML Converter
 Copyright   : (c) 2024 Frederick Price
@@ -9,7 +10,7 @@ Maintainer  : fprice@pricemail.ca
 Stability   : experimental
 Portability : POSIX
 
-Command line utility and library to convert Google Takeout Location data to KML format 
+Command line utility and library to convert Google Takeout Location data to KML format
 -}
 module Data.Location.Internal.KMLSpec (spec) where
 

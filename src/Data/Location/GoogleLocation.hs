@@ -1,3 +1,5 @@
+{-# OPTIONS_HADDOCK show-extensions #-}
+
 {-|
 Module      : Data.Location.GoogleLocation
 Description : Google Takeout Location to KML Converter

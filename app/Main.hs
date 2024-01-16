@@ -1,4 +1,5 @@
 {-# LANGUAGE Unsafe #-}
+{-# OPTIONS_HADDOCK show-extensions #-}
 
 {-|
 Module      : Main

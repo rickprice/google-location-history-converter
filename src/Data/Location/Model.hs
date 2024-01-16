@@ -3,6 +3,7 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE Unsafe #-}
+{-# OPTIONS_HADDOCK show-extensions #-}
 
 {-|
 Module      : Data.Location.Model

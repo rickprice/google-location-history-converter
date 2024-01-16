@@ -1,3 +1,4 @@
+{-# OPTIONS_HADDOCK show-extensions #-}
 {-# OPTIONS_GHC -F -pgmF hspec-discover #-}
 
 {-|
