@@ -16,7 +16,14 @@ Portability : POSIX
 
 Command line utility and library to convert Google Takeout Location data to KML format 
 -}
-module Data.Location.Model (LocationRecord (..), locationRecordParser, LocationRecords (..), locationRecordsParser) where
+module Data.Location.Model (
+-- * Types
+LocationRecord (..), 
+LocationRecords (..), 
+-- * Parsers
+locationRecordParser, 
+locationRecordsParser
+) where
 
 import Data.Aeson
 
