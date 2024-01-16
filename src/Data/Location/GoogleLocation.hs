@@ -1,3 +1,7 @@
+{-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE DuplicateRecordFields #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE Unsafe #-}
 {-# OPTIONS_HADDOCK show-extensions #-}
 
 {-|
@@ -76,3 +80,18 @@ getLocationRecordsFromFilePath filePath = do
 -- Utility funnction to filter data older than the given date
 filterOlderThan :: UTCTime -> [LocationRecord] -> [LocationRecord]
 filterOlderThan filterDate = Prelude.filter (\x -> timestamp x > filterDate)
+
+-- The Parser setup
+locationRecordParser :: J.Parser LocationRecord
+locationRecordParser =
+    LocationRecord
+        <$> "timestamp" J..: J.value
+            <*> "latitudeE7" J..: J.integer
+            <*> "longitudeE7" J..: J.integer
+            <*> "altitude" J..:? J.integer
+            <*> "accuracy" J..:? J.integer
+
+locationRecordsParser :: J.Parser LocationRecord
+locationRecordsParser =
+    J.objectWithKey "locations" $ J.arrayOf locationRecordParser
+
