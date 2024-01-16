@@ -3,8 +3,8 @@
 
 module Data.Location.GoogleLocationSpec (spec) where
 
-import Data.Location.GoogleLocation as GL
-import Data.Location.Model as M
+import qualified Data.Location.GoogleLocation as GL
+import qualified Data.Location.Model as M
 import Data.String.Conversions (cs)
 import qualified Data.Text as T
 import Data.Time.Clock
@@ -33,13 +33,13 @@ typicalLocationAllFields :: M.LocationRecord
 typicalLocationAllFields = M.LocationRecord typicalDate typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber (Just 183) (Just 13)
 
 typicalLocationNoAltitude :: M.LocationRecord
-typicalLocationNoAltitude = M.LocationRecord (addDaysUTCTime 1 typicalDate) typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber Nothing (Just 13)
+typicalLocationNoAltitude = M.LocationRecord (GL.addDaysUTCTime 1 typicalDate) typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber Nothing (Just 13)
 
 typicalLocationNoAccuracy :: M.LocationRecord
-typicalLocationNoAccuracy = M.LocationRecord (addDaysUTCTime 2 typicalDate) typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber (Just 183) Nothing
+typicalLocationNoAccuracy = M.LocationRecord (GL.addDaysUTCTime 2 typicalDate) typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber (Just 183) Nothing
 
 typicalLocationNoOptionalFields :: M.LocationRecord
-typicalLocationNoOptionalFields = M.LocationRecord (addDaysUTCTime 3 typicalDate) typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber Nothing Nothing
+typicalLocationNoOptionalFields = M.LocationRecord (GL.addDaysUTCTime 3 typicalDate) typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber Nothing Nothing
 
 googleLocationJSON :: T.Text
 googleLocationJSON =

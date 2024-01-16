@@ -20,18 +20,18 @@ extra-source-files:
 description:         Please see the README on GitHub at <https://github.com/rickprice/google-location-history-converter#readme>
 
 dependencies:
-- base >= 4.7 && < 5
-- tar
-- bytestring
-- zlib
-- aeson
-- time
-- json-stream
-- text
-- formatting
-- neat-interpolation
-- optparse-applicative
-- string-conversions
+- aeson >=2.0 && <2.3
+- base >=4.7 && <4.20
+- bytestring >=0.10 && <0.13
+- formatting >=7.1 && <7.3
+- json-stream >=0.4 && <0.5
+- neat-interpolation >=0.5 && <0.6
+- optparse-applicative >=0.16 && <0.19
+- string-conversions >= 0.4 && <0.5
+- tar >=0.5.1.1 && <0.6
+- text >= 1.2 && <2.2
+- time >=1.9 && <1.13
+- zlib >=0.6.3.0 && <0.7
 
 ghc-options:
 - -Wall
@@ -68,5 +68,5 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - hspec
+    - hspec >=2.8 && <2.12
     - google-location-history-converter

@@ -2,8 +2,8 @@
 
 module Main (main) where
 
-import Data.Location.GoogleLocation as GL
-import Data.Location.KML as KML
+import qualified Data.Location.GoogleLocation as GL
+import qualified Data.Location.KML as KML
 
 import Data.Time
 
@@ -11,8 +11,8 @@ import CmdOptions
 
 import System.IO
 
-import Data.Text.Lazy.Builder as B
-import Data.Text.Lazy.IO as BIO
+import qualified Data.Text.Lazy.Builder as B
+import qualified Data.Text.Lazy.IO as BIO
 
 main :: IO ()
 main = do

@@ -5,22 +5,22 @@ module Data.Location.GoogleLocation (
     addDaysUTCTime,
 ) where
 
-import Data.Location.Model as M
+import Data.Location.Model
 
-import Codec.Archive.Tar as Tar
+import qualified Codec.Archive.Tar as Tar
 
-import Codec.Compression.GZip as GZip
-import Data.ByteString.Lazy as BS
+import qualified Codec.Compression.GZip as GZip
+import qualified Data.ByteString.Lazy as BS
 
 import qualified Data.JsonStream.Parser as J
 
 import Data.Time.Clock
 
 addDaysUTCTime :: Integer -> UTCTime -> UTCTime
-addDaysUTCTime x t = addUTCTime (nominalDay * fromIntegral x) t
+addDaysUTCTime x = addUTCTime (nominalDay * fromIntegral x)
 
-getLocationRecordsFromByteString :: ByteString -> [LocationRecord]
-getLocationRecordsFromByteString = J.parseLazyByteString M.locationRecordsParser
+getLocationRecordsFromByteString :: BS.ByteString -> [LocationRecord]
+getLocationRecordsFromByteString = J.parseLazyByteString locationRecordsParser
 
 {- | This is like the standard 'foldr' function on lists, but for 'Entries'.
  Compared to 'foldEntries' it skips failures.
