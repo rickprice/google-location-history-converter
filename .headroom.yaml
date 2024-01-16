@@ -1,0 +1,38 @@
+## This is the configuration file for Headroom.
+## See https://github.com/vaclavsvejcar/headroom for more details.
+
+version: 0.4.2.0
+
+run-mode: replace
+
+source-paths:
+  - app
+  - src
+  - test
+
+template-paths:
+  - headroom-templates
+
+variables:
+  author: Frederick Price
+  license: BSD-3-Clause
+  email: fprice@pricemail.ca
+  year: "2024"
+  _haskell_module_shortdesc: "Google Takeout Location to KML Converter"
+  _haskell_module_longdesc: "Command line utility and library to convert Google Takeout Location data to KML format
+"
+
+license-headers:
+  haskell:
+    put-after: ["^{-#"]
+    put-before: ["^module"]
+    margin-top-code: 1
+    line-comment:
+      prefixed-by: ^--
+
+post-process:
+  update-copyright:
+    enabled: true
+    config:
+      selected-authors-only: ["{{ author }}"]
+
