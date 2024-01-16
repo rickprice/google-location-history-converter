@@ -6,7 +6,9 @@ cabal-version: 2.2
 
 name:           google-location-history-converter
 version:        0.3.0.0
+synopsis:       Command line utility and library to convert Google Takeout Location data to KML format
 description:    Please see the README on GitHub at <https://github.com/rickprice/google-location-history-converter#readme>
+category:       Data
 homepage:       https://github.com/rickprice/google-location-history-converter#readme
 bug-reports:    https://github.com/rickprice/google-location-history-converter/issues
 author:         Frederick Price
