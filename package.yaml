@@ -43,13 +43,12 @@ ghc-options:
 - -Wmissing-home-modules
 - -Wpartial-fields
 - -Wredundant-constraints
-- -O2
 
 library:
   source-dirs: src
 
 executables:
-  google-location-history-converter-exe:
+  glconverter:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
