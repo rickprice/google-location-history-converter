@@ -45,11 +45,11 @@ import Data.Time.Clock
  Compared to 'foldEntries' it skips failures.
 -}
 foldEntriesIgnoreFailure :: (Tar.Entry -> a -> a) -> a -> Tar.Entries e -> a
-foldEntriesIgnoreFailure next done = fold
+foldEntriesIgnoreFailure next done = fold'
   where
-    fold (Tar.Next e es) = next e (fold es)
-    fold Tar.Done = done
-    fold (Tar.Fail _) = done
+    fold' (Tar.Next e es) = next e (fold' es)
+    fold' Tar.Done = done
+    fold' (Tar.Fail _) = done
 
 -- Convert an entry to its ByteString
 entryToByteString :: Tar.Entry -> BS.ByteString
@@ -71,7 +71,7 @@ entryIsLocationData e = case Tar.entryContent e of
 {- | Return a list of LocationRecords parsed from a Google Takeout Location file in .tgz format-}
 getLocationRecordsFromFilePath :: FilePath -> IO [LocationRecord]
 getLocationRecordsFromFilePath filePath = do
-    fileContent <- GZip.decompress <$> BS.readFile filePath
+    fileContent <- GZip.decompress <$> readFileLBS filePath
     let entries = Tar.read fileContent
     let entryList = foldEntriesIgnoreFailure (:) [] entries
     let locationRecordFile = entryToByteString (Relude.head (Relude.filter entryIsLocationData entryList))
