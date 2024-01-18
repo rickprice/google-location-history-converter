@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE Unsafe #-}
 {-# OPTIONS_HADDOCK show-extensions #-}
+{-# LANGUAGE NoImplicitPrelude #-}
 
 {-|
 Module      : CmdOptions
@@ -14,6 +15,8 @@ Portability : POSIX
 Command line utility and library to convert Google Takeout Location data to KML format 
 -}
 module CmdOptions (getConfiguration, Config (..)) where
+
+import Relude
 
 import Options.Applicative
 

@@ -2,6 +2,7 @@
 {-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE Unsafe #-}
+{-# LANGUAGE NoImplicitPrelude #-}
 
 {-|
 Module      : Data.Location.KML
@@ -22,13 +23,12 @@ module Data.Location.KML (
 toKML
 ) where
 
+import Relude
+
 import Data.Location.Internal.KML
 import Data.Location.Model
 
-import Data.Monoid
 import Data.Text.Lazy.Builder
-
-import Prelude
 
 {- | Convert a list of LocationRecords into a String Builder, in the KML format-}
 toKML :: [LocationRecord] -> Builder

@@ -3,6 +3,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE Unsafe #-}
 {-# OPTIONS_HADDOCK show-extensions #-}
+{-# LANGUAGE NoImplicitPrelude #-}
 
 {-|
 Module      : Data.Location.Internal.KML
@@ -17,10 +18,11 @@ Command line utility and library to convert Google Takeout Location data to KML 
 -}
 module Data.Location.Internal.KML (xmlKMLHeader, xmlKMLFooter, toPlacemarkDataTag, convertLocationToBuilder, wrapWithDataTag, toExtendedDataTag) where
 
+import Relude
+
 import Data.Location.Model
 
 import Data.Time.Format.ISO8601
-import Prelude
 
 import Data.Text.Lazy.Builder
 

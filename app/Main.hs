@@ -1,5 +1,6 @@
 {-# LANGUAGE Unsafe #-}
 {-# OPTIONS_HADDOCK show-extensions #-}
+{-# LANGUAGE NoImplicitPrelude #-}
 
 {-|
 Module      : Main
@@ -14,14 +15,14 @@ Command line utility and library to convert Google Takeout Location data to KML 
 -}
 module Main (main) where
 
+import Relude
+
 import qualified Data.Location.GoogleLocation as GL
 import qualified Data.Location.KML as KML
 
 import Data.Time
 
 import CmdOptions
-
-import System.IO
 
 import qualified Data.Text.Lazy.Builder as B
 import qualified Data.Text.Lazy.IO as BIO

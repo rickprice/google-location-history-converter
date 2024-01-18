@@ -3,6 +3,7 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE Unsafe #-}
 {-# OPTIONS_HADDOCK show-extensions #-}
+{-# LANGUAGE NoImplicitPrelude #-}
 
 {-|
 Module      : Data.Location.Model
@@ -24,12 +25,11 @@ LocationRecord (..),
 LocationRecords (..),
 ) where
 
+import Relude
 
 import Data.Aeson
 
 import Data.Time.Clock
-import GHC.Generics
-import Prelude
 
 
 -- Record that tracks a location IE a Placemark in KML

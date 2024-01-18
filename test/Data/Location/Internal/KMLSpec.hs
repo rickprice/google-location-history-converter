@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_HADDOCK show-extensions #-}
+{-# LANGUAGE NoImplicitPrelude #-}
 
 {- |
 Module      : Data.Location.Internal.KMLSpec
@@ -13,6 +14,8 @@ Portability : POSIX
 Command line utility and library to convert Google Takeout Location data to KML format
 -}
 module Data.Location.Internal.KMLSpec (spec) where
+
+import Relude
 
 import Data.Location.Internal.KML
 import Data.Location.Model

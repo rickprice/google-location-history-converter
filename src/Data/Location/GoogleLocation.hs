@@ -3,6 +3,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE Unsafe #-}
 {-# OPTIONS_HADDOCK show-extensions #-}
+{-# LANGUAGE NoImplicitPrelude #-}
 
 {-|
 Module      : Data.Location.GoogleLocation
@@ -26,6 +27,8 @@ module Data.Location.GoogleLocation (
     filterOlderThan,
     addDaysUTCTime,
 ) where
+
+import Relude
 
 import Data.Location.Model
 
@@ -71,7 +74,7 @@ getLocationRecordsFromFilePath filePath = do
     fileContent <- GZip.decompress <$> BS.readFile filePath
     let entries = Tar.read fileContent
     let entryList = foldEntriesIgnoreFailure (:) [] entries
-    let locationRecordFile = entryToByteString (Prelude.head (Prelude.filter entryIsLocationData entryList))
+    let locationRecordFile = entryToByteString (Relude.head (Relude.filter entryIsLocationData entryList))
 
     -- return (J.parseLazyByteString M.locationRecordsParser locationRecordFile)
     return (getLocationRecordsFromByteString locationRecordFile)
@@ -86,7 +89,7 @@ addDaysUTCTime x = addUTCTime (nominalDay * fromIntegral x)
 
 {- | Return a list of LocationRecords records newer than the given UTCTime-}
 filterOlderThan :: UTCTime -> [LocationRecord] -> [LocationRecord]
-filterOlderThan filterDate = Prelude.filter (\x -> timestamp x > filterDate)
+filterOlderThan filterDate = Relude.filter (\x -> timestamp x > filterDate)
 
 -- The Parser setup
 locationRecordParser :: J.Parser LocationRecord

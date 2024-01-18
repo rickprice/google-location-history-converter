@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE QuasiQuotes #-}
 {-# OPTIONS_HADDOCK show-extensions #-}
+{-# LANGUAGE NoImplicitPrelude #-}
 
 {-|
 Module      : Data.Location.KMLSpec
@@ -14,6 +15,8 @@ Portability : POSIX
 Command line utility and library to convert Google Takeout Location data to KML format 
 -}
 module Data.Location.KMLSpec (spec) where
+
+import Relude
 
 import qualified Data.Text.Lazy.Builder as B
 
@@ -37,7 +40,7 @@ locationList :: [LocationRecord]
 locationList = [typicalLocationAllFields, typicalLocationNoAccuracy, typicalLocationNoAltitude, typicalLocationNoOptionalFields]
 
 typicalDate :: UTCTime
-typicalDate = Prelude.read "2023-12-25 18:28:52.607875 UTC" :: UTCTime
+typicalDate = Relude.read "2023-12-25 18:28:52.607875 UTC" :: UTCTime
 
 typicalPositiveLongitudeNumber :: Int
 typicalPositiveLongitudeNumber = 447405071
