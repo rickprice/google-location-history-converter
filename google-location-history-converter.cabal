@@ -46,6 +46,7 @@ library
     , json-stream ==0.4.*
     , neat-interpolation ==0.5.*
     , optparse-applicative >=0.16 && <0.19
+    , relude
     , string-conversions ==0.4.*
     , tar >=0.5.1.1 && <0.6
     , text >=1.2 && <2.2
@@ -72,6 +73,7 @@ executable glconverter
     , json-stream ==0.4.*
     , neat-interpolation ==0.5.*
     , optparse-applicative >=0.16 && <0.19
+    , relude
     , string-conversions ==0.4.*
     , tar >=0.5.1.1 && <0.6
     , text >=1.2 && <2.2
@@ -102,6 +104,7 @@ test-suite google-location-history-converter-test
     , json-stream ==0.4.*
     , neat-interpolation ==0.5.*
     , optparse-applicative >=0.16 && <0.19
+    , relude
     , string-conversions ==0.4.*
     , tar >=0.5.1.1 && <0.6
     , text >=1.2 && <2.2
