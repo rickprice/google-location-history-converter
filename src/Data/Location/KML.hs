@@ -1,10 +1,10 @@
-{-# OPTIONS_HADDOCK show-extensions #-}
 {-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE Unsafe #-}
 {-# LANGUAGE NoImplicitPrelude #-}
+{-# OPTIONS_HADDOCK show-extensions #-}
 
-{-|
+{- |
 Module      : Data.Location.KML
 Description : Google Takeout Location to KML Converter
 Copyright   : (c) 2024 Frederick Price
@@ -16,11 +16,11 @@ Portability : POSIX
 Module to take Location records and output them as KML
 -}
 module Data.Location.KML (
--- * Overview
--- $overview
+    -- * Overview
+    -- $overview
 
--- * Converters
-toKML
+    -- * Converters
+    toKML,
 ) where
 
 import Relude
@@ -30,7 +30,7 @@ import Data.Location.Model
 
 import Data.Text.Lazy.Builder
 
-{- | Convert a list of LocationRecords into a String Builder, in the KML format-}
+-- | Convert a list of LocationRecords into a String Builder, in the KML format
 toKML :: [LocationRecord] -> Builder
 toKML x = xmlKMLHeader <> foldMap toPlacemarkDataTag x <> xmlKMLFooter
 

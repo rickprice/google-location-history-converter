@@ -1,9 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE QuasiQuotes #-}
-{-# OPTIONS_HADDOCK show-extensions #-}
 {-# LANGUAGE NoImplicitPrelude #-}
+{-# OPTIONS_HADDOCK show-extensions #-}
 
-{-|
+{- |
 Module      : Data.Location.KMLSpec
 Description : Google Takeout Location to KML Converter
 Copyright   : (c) 2024 Frederick Price
@@ -12,7 +12,7 @@ Maintainer  : fprice@pricemail.ca
 Stability   : experimental
 Portability : POSIX
 
-Command line utility and library to convert Google Takeout Location data to KML format 
+Command line utility and library to convert Google Takeout Location data to KML format
 -}
 module Data.Location.KMLSpec (spec) where
 
@@ -20,7 +20,6 @@ import Relude
 
 import qualified Data.Text.Lazy.Builder as B
 
--- import Data.Location.Internal.KML
 import Data.Location.KML
 import Data.Location.Model
 import Data.String.Conversions (cs)

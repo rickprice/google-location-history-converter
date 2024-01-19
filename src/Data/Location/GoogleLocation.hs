@@ -2,10 +2,10 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE Unsafe #-}
-{-# OPTIONS_HADDOCK show-extensions #-}
 {-# LANGUAGE NoImplicitPrelude #-}
+{-# OPTIONS_HADDOCK show-extensions #-}
 
-{-|
+{- |
 Module      : Data.Location.GoogleLocation
 Description : Google Takeout Location to KML Converter
 Copyright   : (c) 2024 Frederick Price
@@ -17,13 +17,14 @@ Portability : POSIX
 Module to parse Google Takeout Location records as JSON and convert them to Location records
 -}
 module Data.Location.GoogleLocation (
--- * Overview
--- $overview
+    -- * Overview
+    -- $overview
 
--- * Converters
+    -- * Converters
     getLocationRecordsFromFilePath,
     getLocationRecordsFromByteString,
--- * Utility functions
+
+    -- * Utility functions
     filterOlderThan,
     addDaysUTCTime,
 ) where
@@ -40,7 +41,6 @@ import qualified Data.ByteString.Lazy as BS
 import qualified Data.JsonStream.Parser as J
 
 import Data.Time.Clock
--- import Codec.Compression.GZip (filteredStrategy)
 
 {- | This is like the standard 'foldr' function on lists, but for 'Entries'.
  Compared to 'foldEntries' it skips failures.
@@ -69,7 +69,7 @@ entryIsLocationData e = case Tar.entryContent e of
     doesPathMatch :: String -> Bool
     doesPathMatch p = "Takeout/Location History (Timeline)/Records.json" == p
 
-{- | Return a list of LocationRecords parsed from a Google Takeout Location file in .tgz format-}
+-- | Return a list of LocationRecords parsed from a Google Takeout Location file in .tgz format
 getLocationRecordsFromFilePath :: FilePath -> IO [LocationRecord]
 getLocationRecordsFromFilePath filePath = do
     fileContent <- GZip.decompress <$> readFileLBS filePath
@@ -79,21 +79,19 @@ getLocationRecordsFromFilePath filePath = do
     case entryListFiltered of
         Nothing -> return []
         Just entryListNonEmpty -> return locationRecords
-            where
-                locationRecordFile filteredEntries = entryToByteString (Relude.head filteredEntries)
-                locationRecords = getLocationRecordsFromByteString (locationRecordFile entryListNonEmpty)
-        -- return (J.parseLazyByteString M.locationRecordsParser locationRecordFile)
-        -- return (getLocationRecordsFromByteString locationRecordFile)
+          where
+            locationRecordFile filteredEntries = entryToByteString (Relude.head filteredEntries)
+            locationRecords = getLocationRecordsFromByteString (locationRecordFile entryListNonEmpty)
 
-{- | Return a list of LocationRecords parsed from a ByteString-}
+-- | Return a list of LocationRecords parsed from a ByteString
 getLocationRecordsFromByteString :: BS.ByteString -> [LocationRecord]
 getLocationRecordsFromByteString = J.parseLazyByteString locationRecordsParser
 
-{- | Move a UTCTime forward or backward by the given number of days-}
+-- | Move a UTCTime forward or backward by the given number of days
 addDaysUTCTime :: Integer -> UTCTime -> UTCTime
 addDaysUTCTime x = addUTCTime (nominalDay * fromIntegral x)
 
-{- | Return a list of LocationRecords records newer than the given UTCTime-}
+-- | Return a list of LocationRecords records newer than the given UTCTime
 filterOlderThan :: UTCTime -> [LocationRecord] -> [LocationRecord]
 filterOlderThan filterDate = Relude.filter (\x -> timestamp x > filterDate)
 

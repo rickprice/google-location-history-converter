@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# OPTIONS_HADDOCK show-extensions #-}
 {-# LANGUAGE NoImplicitPrelude #-}
+{-# OPTIONS_HADDOCK show-extensions #-}
 
 {- |
 Module      : Data.Location.Internal.KMLSpec
@@ -22,8 +22,6 @@ import Data.Location.Model
 import Data.Time.Clock
 import Test.Hspec
 import Text.Read
-
--- import qualified Data.Aeson.Key as xmlKMLHeader
 
 spec :: Spec
 spec = do

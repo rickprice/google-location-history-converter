@@ -2,10 +2,10 @@
 {-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE Unsafe #-}
-{-# OPTIONS_HADDOCK show-extensions #-}
 {-# LANGUAGE NoImplicitPrelude #-}
+{-# OPTIONS_HADDOCK show-extensions #-}
 
-{-|
+{- |
 Module      : Data.Location.Model
 Description : Google Takeout Location to KML Converter
 Copyright   : (c) 2024 Frederick Price
@@ -17,12 +17,12 @@ Portability : POSIX
 The Rosetta Stone module that defines GIS Location records
 -}
 module Data.Location.Model (
--- * Overview
--- $overview
+    -- * Overview
+    -- $overview
 
--- * Types
-LocationRecord (..),
-LocationRecords (..),
+    -- * Types
+    LocationRecord (..),
+    LocationRecords (..),
 ) where
 
 import Relude
@@ -30,7 +30,6 @@ import Relude
 import Data.Aeson
 
 import Data.Time.Clock
-
 
 -- Record that tracks a location IE a Placemark in KML
 data LocationRecord = LocationRecord
