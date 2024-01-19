@@ -28,6 +28,7 @@ import qualified Data.Text as T
 import Data.Time.Clock
 import NeatInterpolation (text)
 import Test.Hspec
+import Text.Read
 
 spec :: Spec
 spec = do
@@ -40,7 +41,7 @@ locationList :: [LocationRecord]
 locationList = [typicalLocationAllFields, typicalLocationNoAccuracy, typicalLocationNoAltitude, typicalLocationNoOptionalFields]
 
 typicalDate :: UTCTime
-typicalDate = Relude.read "2023-12-25 18:28:52.607875 UTC" :: UTCTime
+typicalDate = read "2023-12-25 18:28:52.607875 UTC" :: UTCTime
 
 typicalPositiveLongitudeNumber :: Int
 typicalPositiveLongitudeNumber = 447405071

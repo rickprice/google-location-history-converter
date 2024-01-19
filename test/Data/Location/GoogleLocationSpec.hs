@@ -24,6 +24,7 @@ import qualified Data.Text as T
 import Data.Time.Clock
 import NeatInterpolation (text)
 import Test.Hspec
+import Text.Read
 
 spec :: Spec
 spec = do

@@ -28,6 +28,8 @@ import Data.Text.Lazy.Builder
 
 import Formatting
 
+import Data.Maybe(fromJust)
+
 -- The KML Header
 xmlKMLHeader :: Builder
 xmlKMLHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>\n"

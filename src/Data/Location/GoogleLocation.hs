@@ -40,6 +40,7 @@ import qualified Data.ByteString.Lazy as BS
 import qualified Data.JsonStream.Parser as J
 
 import Data.Time.Clock
+-- import Codec.Compression.GZip (filteredStrategy)
 
 {- | This is like the standard 'foldr' function on lists, but for 'Entries'.
  Compared to 'foldEntries' it skips failures.
@@ -74,10 +75,15 @@ getLocationRecordsFromFilePath filePath = do
     fileContent <- GZip.decompress <$> readFileLBS filePath
     let entries = Tar.read fileContent
     let entryList = foldEntriesIgnoreFailure (:) [] entries
-    let locationRecordFile = entryToByteString (Relude.head (Relude.filter entryIsLocationData entryList))
-
-    -- return (J.parseLazyByteString M.locationRecordsParser locationRecordFile)
-    return (getLocationRecordsFromByteString locationRecordFile)
+    let entryListFiltered = nonEmpty (Relude.filter entryIsLocationData entryList)
+    case entryListFiltered of
+        Nothing -> return []
+        Just entryListNonEmpty -> return locationRecords
+            where
+                locationRecordFile filteredEntries = entryToByteString (Relude.head filteredEntries)
+                locationRecords = getLocationRecordsFromByteString (locationRecordFile entryListNonEmpty)
+        -- return (J.parseLazyByteString M.locationRecordsParser locationRecordFile)
+        -- return (getLocationRecordsFromByteString locationRecordFile)
 
 {- | Return a list of LocationRecords parsed from a ByteString-}
 getLocationRecordsFromByteString :: BS.ByteString -> [LocationRecord]

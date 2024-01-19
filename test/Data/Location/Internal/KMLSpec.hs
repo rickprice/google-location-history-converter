@@ -21,6 +21,7 @@ import Data.Location.Internal.KML
 import Data.Location.Model
 import Data.Time.Clock
 import Test.Hspec
+import Text.Read
 
 -- import qualified Data.Aeson.Key as xmlKMLHeader
 
