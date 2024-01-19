@@ -26,6 +26,8 @@ import NeatInterpolation (text)
 import Test.Hspec
 import Text.Read
 
+-- import Data.Scientific
+
 spec :: Spec
 spec = do
     describe "Data.Location.GoogleLocation.getLocationFromByteString" $ do
@@ -38,23 +40,23 @@ locationList = [typicalLocationAllFields, typicalLocationNoAltitude, typicalLoca
 typicalDate :: UTCTime
 typicalDate = read "2023-12-25 18:28:52.607875 UTC" :: UTCTime
 
-typicalPositiveLongitudeNumber :: Int
-typicalPositiveLongitudeNumber = 447405071
+typicalNegativeLatitudeNumber :: M.Latitude
+typicalNegativeLatitudeNumber = M.fromE6ScientificLatitude 447405071
 
-typicalNegativeLatitudeNumber :: Int
-typicalNegativeLatitudeNumber = -798735599
+typicalPositiveLongitudeNumber :: M.Longitude
+typicalPositiveLongitudeNumber = M.fromE6ScientificLongitude (-798735599)
 
 typicalLocationAllFields :: M.LocationRecord
-typicalLocationAllFields = M.LocationRecord typicalDate typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber (Just 183) (Just 13)
+typicalLocationAllFields = M.LocationRecord typicalDate typicalNegativeLatitudeNumber typicalPositiveLongitudeNumber (Just 183) (Just 13)
 
 typicalLocationNoAltitude :: M.LocationRecord
-typicalLocationNoAltitude = M.LocationRecord (GL.addDaysUTCTime 1 typicalDate) typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber Nothing (Just 13)
+typicalLocationNoAltitude = M.LocationRecord (GL.addDaysUTCTime 1 typicalDate) typicalNegativeLatitudeNumber typicalPositiveLongitudeNumber Nothing (Just 13)
 
 typicalLocationNoAccuracy :: M.LocationRecord
-typicalLocationNoAccuracy = M.LocationRecord (GL.addDaysUTCTime 2 typicalDate) typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber (Just 183) Nothing
+typicalLocationNoAccuracy = M.LocationRecord (GL.addDaysUTCTime 2 typicalDate) typicalNegativeLatitudeNumber typicalPositiveLongitudeNumber (Just 183) Nothing
 
 typicalLocationNoOptionalFields :: M.LocationRecord
-typicalLocationNoOptionalFields = M.LocationRecord (GL.addDaysUTCTime 3 typicalDate) typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber Nothing Nothing
+typicalLocationNoOptionalFields = M.LocationRecord (GL.addDaysUTCTime 3 typicalDate) typicalNegativeLatitudeNumber typicalPositiveLongitudeNumber Nothing Nothing
 
 googleLocationJSON :: T.Text
 googleLocationJSON =

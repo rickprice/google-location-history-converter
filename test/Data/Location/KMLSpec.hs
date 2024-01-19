@@ -42,23 +42,23 @@ locationList = [typicalLocationAllFields, typicalLocationNoAccuracy, typicalLoca
 typicalDate :: UTCTime
 typicalDate = read "2023-12-25 18:28:52.607875 UTC" :: UTCTime
 
-typicalPositiveLongitudeNumber :: Int
-typicalPositiveLongitudeNumber = 447405071
+typicalNegativeLatitudeNumber :: Latitude
+typicalNegativeLatitudeNumber = fromE6IntegerLatitude (-798735599)
 
-typicalNegativeLatitudeNumber :: Int
-typicalNegativeLatitudeNumber = -798735599
+typicalPositiveLongitudeNumber :: Longitude
+typicalPositiveLongitudeNumber = fromE6IntegerLongitude 447405071
 
 typicalLocationAllFields :: LocationRecord
-typicalLocationAllFields = LocationRecord typicalDate typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber (Just 126) (Just 10)
+typicalLocationAllFields = LocationRecord typicalDate typicalNegativeLatitudeNumber typicalPositiveLongitudeNumber (Just 126) (Just 10)
 
 typicalLocationNoAltitude :: LocationRecord
-typicalLocationNoAltitude = LocationRecord typicalDate typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber Nothing (Just 10)
+typicalLocationNoAltitude = LocationRecord typicalDate typicalNegativeLatitudeNumber typicalPositiveLongitudeNumber Nothing (Just 10)
 
 typicalLocationNoAccuracy :: LocationRecord
-typicalLocationNoAccuracy = LocationRecord typicalDate typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber (Just 126) Nothing
+typicalLocationNoAccuracy = LocationRecord typicalDate typicalNegativeLatitudeNumber typicalPositiveLongitudeNumber (Just 126) Nothing
 
 typicalLocationNoOptionalFields :: LocationRecord
-typicalLocationNoOptionalFields = LocationRecord typicalDate typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber Nothing Nothing
+typicalLocationNoOptionalFields = LocationRecord typicalDate typicalNegativeLatitudeNumber typicalPositiveLongitudeNumber Nothing Nothing
 
 -- Original example from json-stream
 locationListKMLAsString :: T.Text

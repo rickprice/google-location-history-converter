@@ -16,7 +16,7 @@ Portability : POSIX
 
 Command line utility and library to convert Google Takeout Location data to KML format
 -}
-module Data.Location.Internal.KML (xmlKMLHeader, xmlKMLFooter, toPlacemarkDataTag, convertLocationToBuilder, wrapWithDataTag, toExtendedDataTag) where
+module Data.Location.Internal.KML (xmlKMLHeader, xmlKMLFooter, toPlacemarkDataTag, wrapWithDataTag, toExtendedDataTag) where
 
 import Relude
 
@@ -29,6 +29,8 @@ import Data.Text.Lazy.Builder
 import Formatting
 
 import Data.Maybe (fromJust)
+
+-- import Data.Text.Lazy.Builder.Scientific
 
 -- The KML Header
 xmlKMLHeader :: Builder
@@ -59,11 +61,8 @@ toPlacemarkDataTag x =
         <> "</when></TimeStamp>"
         <> toExtendedDataTag x
         <> "<Point><coordinates>"
-        <> convertLocationToBuilder (longitudeE7 x)
+        <> convertLatitudeToBuilder (latitudeE7 x)
         <> ","
-        <> convertLocationToBuilder (latitudeE7 x)
+        <> convertLongitudeToBuilder (longitudeE7 x)
         <> "</coordinates></Point>"
         <> "</Placemark>\n"
-
-convertLocationToBuilder :: Int -> Builder
-convertLocationToBuilder x = bformat float (fromIntegral x / 10000000 :: Double)
