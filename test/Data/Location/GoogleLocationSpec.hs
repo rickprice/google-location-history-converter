@@ -29,7 +29,7 @@ spec :: Spec
 spec = do
     describe "Data.Location.GoogleLocation.getLocationFromByteString" $ do
         it "Converts a JSON ByteString to a LocationRecord list" $ do
-            (GL.getLocationRecordsFromByteString (cs googleLocationJSON)) `shouldBe` locationList
+            GL.getLocationRecordsFromByteString (cs googleLocationJSON) `shouldBe` locationList
 
 locationList :: [M.LocationRecord]
 locationList = [typicalLocationAllFields, typicalLocationNoAltitude, typicalLocationNoAccuracy, typicalLocationNoOptionalFields]

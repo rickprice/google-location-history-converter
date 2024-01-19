@@ -46,4 +46,4 @@ main = do
     -- Output as KML
     case outputFilename configuration of
         Nothing -> BIO.hPutStr stdout (B.toLazyText (KML.toKML listToOutput))
-        Just x -> BIO.writeFile x (B.toLazyText (KML.toKML listToOutput))
+        Just x -> writeFileLText x (B.toLazyText (KML.toKML listToOutput))

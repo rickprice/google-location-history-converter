@@ -75,10 +75,10 @@ smallPositiveLongitudeNumber :: Int
 smallPositiveLongitudeNumber = 5071
 
 smallNegativeLongitudeNumber :: Int
-smallNegativeLongitudeNumber = (-5071)
+smallNegativeLongitudeNumber = -5071
 
 typicalNegativeLatitudeNumber :: Int
-typicalNegativeLatitudeNumber = (-798735599)
+typicalNegativeLatitudeNumber = -798735599
 
 typicalLocationAllFields :: LocationRecord
 typicalLocationAllFields = LocationRecord typicalDate typicalPositiveLongitudeNumber typicalNegativeLatitudeNumber (Just 126) (Just 10)
