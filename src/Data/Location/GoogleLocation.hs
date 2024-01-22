@@ -100,8 +100,8 @@ locationRecordParser :: J.Parser LocationRecord
 locationRecordParser =
     LocationRecord
         <$> "timestamp" J..: J.value
-            <*> "latitudeE7" J..: J.integer
-            <*> "longitudeE7" J..: J.integer
+            <*> "latitudeE7" J..: J.value
+            <*> "longitudeE7" J..: J.value
             <*> "altitude" J..:? J.integer
             <*> "accuracy" J..:? J.integer
 
