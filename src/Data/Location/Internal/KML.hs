@@ -16,7 +16,7 @@ Portability : POSIX
 
 Command line utility and library to convert Google Takeout Location data to KML format
 -}
-module Data.Location.Internal.KML (xmlKMLHeader, xmlKMLFooter, toPlacemarkDataTag, wrapWithDataTag, toExtendedDataTag) where
+module Data.Location.Internal.KML (xmlKMLHeader, xmlKMLFooter, toPlacemarkDataTag, wrapMaybeTag, wrapMaybeDataTag, wrapExtendedValues) where
 
 import Relude
 
@@ -28,10 +28,6 @@ import Data.Text.Lazy.Builder
 
 import Formatting
 
-import Data.Maybe (fromJust)
-
--- import Data.Text.Lazy.Builder.Scientific
-
 -- The KML Header
 xmlKMLHeader :: Builder
 xmlKMLHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>\n"
@@ -40,29 +36,36 @@ xmlKMLHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://ww
 xmlKMLFooter :: Builder
 xmlKMLFooter = "</Document></kml>"
 
-extendedDataToProcess :: [(Builder, LocationRecord -> Maybe Int)]
-extendedDataToProcess = [("accuracy", accuracy), ("altitude", altitude)]
-
-toExtendedDataTag :: LocationRecord -> Builder
-toExtendedDataTag loc = if null extendedDataList then mempty else "<ExtendedData>" <> tagContents <> "</ExtendedData>"
-  where
-    tagContents = mconcat (fmap wrapWithDataTag extendedDataList)
-    extendedDataList = extendedValues loc extendedDataToProcess
-    extendedValues loc' = mapMaybe (\(x, y) -> if isJust (y loc') then Just (x, fromJust (y loc')) else Nothing)
-
-wrapWithDataTag :: (Builder, Int) -> Builder
-wrapWithDataTag (x, y) = "<Data name=\"" <> x <> "\"><value>" <> bformat int y <> "</value></Data>"
-
 toPlacemarkDataTag :: LocationRecord -> Builder
 toPlacemarkDataTag x =
     "<Placemark>"
         <> "<TimeStamp><when>"
         <> bformat string (iso8601Show (timestamp x))
         <> "</when></TimeStamp>"
-        <> toExtendedDataTag x
+        <> fromMaybe "" (wrapExtendedValues x)
         <> "<Point><coordinates>"
         <> convertLatitudeToBuilder (latitudeE7 x)
         <> ","
         <> convertLongitudeToBuilder (longitudeE7 x)
         <> "</coordinates></Point>"
         <> "</Placemark>\n"
+
+wrapMaybeTag :: Builder -> Maybe Builder -> Maybe Builder
+wrapMaybeTag tagName (Just v) = Just $ "<" <> tagName <> ">" <> v <> "</" <> tagName <> ">"
+wrapMaybeTag _ Nothing = Nothing
+
+wrapExtendedDataTag :: Maybe Builder -> Maybe Builder
+wrapExtendedDataTag = wrapMaybeTag "ExtendedData"
+
+wrapMaybeDataTag :: Builder -> Maybe Int -> Maybe Builder
+wrapMaybeDataTag tagClass (Just v) = Just $ "<Data name=\"" <> tagClass <> "\"><value>" <> bformat int v <> "</value></Data>"
+wrapMaybeDataTag _ Nothing = Nothing
+
+wrapMaybeAccuracy :: LocationRecord -> Maybe Builder
+wrapMaybeAccuracy lr = wrapMaybeDataTag "accuracy" (accuracy lr)
+
+wrapMaybeAltitude :: LocationRecord -> Maybe Builder
+wrapMaybeAltitude lr = wrapMaybeDataTag "altitude" (altitude lr)
+
+wrapExtendedValues :: LocationRecord -> Maybe Builder
+wrapExtendedValues lr = wrapExtendedDataTag $ wrapMaybeAccuracy lr <> wrapMaybeAltitude lr

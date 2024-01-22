@@ -30,10 +30,9 @@ import Test.Hspec
 import Text.Read
 
 spec :: Spec
-spec = do
-    describe "Data.Location.KML.xmlGISHeader" $ do
-        it "Converts a list of Locations to XML" $ do
-            -- (cs (toLazyByteString (toKML locationList))) `shouldBe` locationListKMLAsString
+spec =
+    describe "Data.Location.KML.xmlGISHeader" $
+        it "Converts a list of Locations to XML" $
             B.toLazyText (toKML locationList) `shouldBe` cs locationListKMLAsString
 
 locationList :: [LocationRecord]

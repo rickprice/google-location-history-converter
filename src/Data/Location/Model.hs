@@ -42,8 +42,6 @@ import Data.Aeson
 
 import Data.Time.Clock
 
--- import Data.Scientific (Scientific, fromInteger)
-
 import qualified Data.Aeson.Types as AE
 import Data.Scientific
 import Data.Text.Lazy.Builder as LT
@@ -72,7 +70,7 @@ instance FromJSON Latitude where
     parseJSON v =
         case v of
             Number x -> return (fromE6ScientificLatitude x)
-            _ -> AE.typeMismatch "Longitude" v
+            _AnyOtherType -> AE.typeMismatch "Longitude" v
     {-# INLINE parseJSON #-}
 
 newtype Longitude = Longitude
@@ -84,7 +82,7 @@ instance FromJSON Longitude where
     parseJSON v =
         case v of
             Number x -> return (fromE6ScientificLongitude x)
-            _ -> AE.typeMismatch "Longitude" v
+            _AnyOtherType -> AE.typeMismatch "Longitude" v
     {-# INLINE parseJSON #-}
 
 fromE6ScientificLatitude :: Scientific -> Latitude
@@ -106,11 +104,9 @@ parseLatitude :: Int -> Maybe Latitude
 parseLatitude x = Just (Latitude (fromInteger (fromIntegral x)))
 
 convertLatitudeToBuilder :: Latitude -> Builder
--- convertLatitudeToBuilder x = bformat float (fromIntegral x / 10000000 :: Double)
 convertLatitudeToBuilder x = formatScientificBuilder Fixed (Just 7) (latitude x)
 
 convertLongitudeToBuilder :: Longitude -> Builder
--- convertLongitudeToBuilder x = bformat float (fromIntegral x / 10000000 :: Double)
 convertLongitudeToBuilder x = formatScientificBuilder Fixed (Just 7) (longitude x)
 
 {- $overview
