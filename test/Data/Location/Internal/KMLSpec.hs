@@ -66,7 +66,7 @@ spec = do
 
     describe "Data.Location.Internal.KML.convertLongitudeToBuilder" $ do
         it "Returns a correct string for a positive regular Longitude Number" $
-            convertLongitudeToBuilder typicalPositiveLongitudeNumber `shouldBe` "44.7405071"
+            convertLongitudeToBuilder typicalNegativeLongitudeNumber `shouldBe` "-79.8735599"
         it "Returns a correct string for small positive Longitude Number" $
             convertLongitudeToBuilder smallPositiveLongitudeNumber `shouldBe` "0.0005071"
         it "Returns a correct string for small positive Longitude Number" $
@@ -74,16 +74,16 @@ spec = do
 
     describe "Data.Location.Internal.KML.convertLatitudeToBuilder" $
         it "Returns a correct string for a negative regular Latitude Number" $
-            convertLatitudeToBuilder typicalNegativeLatitudeNumber `shouldBe` "-79.8735599"
+            convertLatitudeToBuilder typicalPositiveLatitudeNumber `shouldBe` "44.7405071"
 
 typicalDate :: UTCTime
 typicalDate = read "2023-12-25 18:28:52.607875 UTC" :: UTCTime
 
-typicalNegativeLatitudeNumber :: Latitude
-typicalNegativeLatitudeNumber = fromE6IntegerLatitude (-798735599)
+typicalPositiveLatitudeNumber :: Latitude
+typicalPositiveLatitudeNumber = fromE6IntegerLatitude 447405071
 
-typicalPositiveLongitudeNumber :: Longitude
-typicalPositiveLongitudeNumber = fromE6IntegerLongitude 447405071
+typicalNegativeLongitudeNumber :: Longitude
+typicalNegativeLongitudeNumber = fromE6IntegerLongitude (-798735599)
 
 smallPositiveLongitudeNumber :: Longitude
 smallPositiveLongitudeNumber = fromE6IntegerLongitude 5071
@@ -92,13 +92,13 @@ smallNegativeLongitudeNumber :: Longitude
 smallNegativeLongitudeNumber = fromE6IntegerLongitude (-5071)
 
 typicalLocationAllFields :: LocationRecord
-typicalLocationAllFields = LocationRecord typicalDate typicalNegativeLatitudeNumber typicalPositiveLongitudeNumber (Just 126) (Just 10)
+typicalLocationAllFields = LocationRecord typicalDate typicalPositiveLatitudeNumber typicalNegativeLongitudeNumber (Just 126) (Just 10)
 
 typicalLocationNoAltitude :: LocationRecord
-typicalLocationNoAltitude = LocationRecord typicalDate typicalNegativeLatitudeNumber typicalPositiveLongitudeNumber Nothing (Just 10)
+typicalLocationNoAltitude = LocationRecord typicalDate typicalPositiveLatitudeNumber typicalNegativeLongitudeNumber Nothing (Just 10)
 
 typicalLocationNoAccuracy :: LocationRecord
-typicalLocationNoAccuracy = LocationRecord typicalDate typicalNegativeLatitudeNumber typicalPositiveLongitudeNumber (Just 126) Nothing
+typicalLocationNoAccuracy = LocationRecord typicalDate typicalPositiveLatitudeNumber typicalNegativeLongitudeNumber (Just 126) Nothing
 
 typicalLocationNoOptionalFields :: LocationRecord
-typicalLocationNoOptionalFields = LocationRecord typicalDate typicalNegativeLatitudeNumber typicalPositiveLongitudeNumber Nothing Nothing
+typicalLocationNoOptionalFields = LocationRecord typicalDate typicalPositiveLatitudeNumber typicalNegativeLongitudeNumber Nothing Nothing

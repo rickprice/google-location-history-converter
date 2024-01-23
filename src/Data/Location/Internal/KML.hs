@@ -44,9 +44,9 @@ toPlacemarkDataTag x =
         <> "</when></TimeStamp>"
         <> fromMaybe "" (wrapExtendedValues x)
         <> "<Point><coordinates>"
-        <> convertLatitudeToBuilder (latitudeE7 x)
-        <> ","
         <> convertLongitudeToBuilder (longitudeE7 x)
+        <> ","
+        <> convertLatitudeToBuilder (latitudeE7 x)
         <> "</coordinates></Point>"
         <> "</Placemark>\n"
 
