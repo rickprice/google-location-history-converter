@@ -45,6 +45,9 @@ ghc-options:
 - -Wmissing-home-modules
 - -Wpartial-fields
 - -Wredundant-constraints
+# These are needed for Stan
+- -fwrite-ide-info
+- -hiedir=.hie
 
 default-extensions:
 - OverloadedStrings
