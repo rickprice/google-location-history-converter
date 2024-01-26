@@ -47,9 +47,9 @@ extra-deps:
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
-# flags:
-#   json-stream:
-#     conduit: true
+flags:
+  json-stream:
+    conduit: true
 
 # Extra package databases containing global packages
 # extra-package-dbs: []

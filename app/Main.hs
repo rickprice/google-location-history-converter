@@ -26,9 +26,15 @@ import CmdOptions
 
 import qualified Data.Text.Lazy.Builder as B
 import qualified Data.Text.Lazy.IO as BIO
+-- import Data.Conduit
+import Conduit
+import Data.JsonStream.Conduit
 
 main :: IO ()
 main = do
+
+    print $ runConduitPure $ yieldMany [1..10] .| sumC
+
     -- Get the configuration data from command line parameters
     configuration <- getConfiguration
 
