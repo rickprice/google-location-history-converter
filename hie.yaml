@@ -1,0 +1,13 @@
+cradle:
+  cabal:
+    - path: "src"
+      component: "lib:google-location-history-converter"
+
+    - path: "app/Main.hs"
+      component: "google-location-history-converter:exe:glconverter"
+
+    - path: "app/CmdOptions.hs"
+      component: "google-location-history-converter:exe:glconverter"
+
+    - path: "test"
+      component: "google-location-history-converter:test:google-location-history-converter-test"
